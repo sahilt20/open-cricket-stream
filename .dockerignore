@@ -1,0 +1,39 @@
+**/node_modules
+**/dist
+**/build
+**/.vite
+**/*.tsbuildinfo
+
+.git
+.github
+.vscode
+.idea
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Loose files
+ChatGPT*.png
+Screenshot*.png
+
+# Local artefacts
+**/var
+recordings/
+overlay-out/
+score-in/
+*.sqlite
+*.sqlite-journal
+*.db
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Tests / coverage
+coverage/
+
+# Big stuff that's not needed in the build context
+docs/PLAN.md
+docs/*.png

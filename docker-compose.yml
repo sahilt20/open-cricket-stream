@@ -1,0 +1,164 @@
+# docker-compose.yml — open-cricket-stream local stack
+#
+# Default `docker compose up` brings up the core rig: score-engine, MediaMTX,
+# scoring PWA. Profiles add optional services:
+#
+#   --profile demo    Adds a synthetic camera that pushes a test pattern over
+#                     SRT to MediaMTX (replaces the phone for local testing).
+#   --profile stream  Adds the FFmpeg compositor that pulls from MediaMTX,
+#                     applies the overlay, and writes a local MP4 (or pushes
+#                     to YouTube if OUTPUT_URL points at rtmps://...).
+#   --profile share   Adds a Samba container so PCS Pro on a Windows host can
+#                     write its template output into the Pi's score-in dir.
+#
+# Examples:
+#   docker compose up                                      # core only
+#   docker compose --profile demo up                       # + simulated phone
+#   docker compose --profile demo --profile stream up      # full pipeline → local MP4
+#   docker compose --profile demo --profile stream --profile share up   # all in
+#
+# Supabase: run as a separate stack via `supabase start` (see docs/local-development.md).
+# Set SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY in .env to enable the durable mirror.
+
+name: opencricketstream
+
+x-restart: &restart-policy
+  restart: unless-stopped
+
+services:
+
+  # ── Core: ingest server ──────────────────────────────────────────────────
+  mediamtx:
+    image: bluenviron/mediamtx:1.9.3
+    container_name: ocs-mediamtx
+    <<: *restart-policy
+    ports:
+      - "${MEDIAMTX_SRT_PORT:-8890}:8890/udp"   # SRT (phone push)
+      - "${MEDIAMTX_RTMP_PORT:-1935}:1935"      # RTMP
+      - "${MEDIAMTX_RTSP_PORT:-8554}:8554"      # RTSP
+      - "${MEDIAMTX_HLS_PORT:-8888}:8888"       # HLS preview
+    volumes:
+      - ./pi/configs/mediamtx.yml:/mediamtx.yml:ro
+    networks: [ocs]
+
+  # ── Core: score engine ───────────────────────────────────────────────────
+  score-engine:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: engine
+    image: ${REGISTRY:-ghcr.io/sahilt20}/open-cricket-stream-engine:${TAG:-local}
+    container_name: ocs-engine
+    <<: *restart-policy
+    environment:
+      PORT: 8080
+      DB_PATH: /var/ocs/match.sqlite
+      OVERLAY_OUT_DIR: /var/ocs/overlay-out
+      PCS_PRO_WATCH_DIR: /var/ocs/score-in
+      CORS_ORIGIN: ${CORS_ORIGIN:-*}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      SUPABASE_URL: ${SUPABASE_URL:-}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY:-}
+    ports:
+      - "${ENGINE_PORT:-8080}:8080"
+    volumes:
+      - ocs-data:/var/ocs
+    networks: [ocs]
+    depends_on:
+      mediamtx:
+        condition: service_started
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:8080/healthz').then(r=>r.ok?process.exit(0):process.exit(1)).catch(()=>process.exit(1))\""]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+  # ── Core: scoring PWA ────────────────────────────────────────────────────
+  scoring-pwa:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: pwa
+      args:
+        VITE_ENGINE_URL: ${VITE_ENGINE_URL:-http://localhost:8080}
+        VITE_SUPABASE_URL: ${VITE_SUPABASE_URL:-}
+        VITE_SUPABASE_ANON_KEY: ${VITE_SUPABASE_ANON_KEY:-}
+    image: ${REGISTRY:-ghcr.io/sahilt20}/open-cricket-stream-pwa:${TAG:-local}
+    container_name: ocs-pwa
+    <<: *restart-policy
+    ports:
+      - "${PWA_PORT:-5173}:80"
+    networks: [ocs]
+    depends_on:
+      score-engine:
+        condition: service_started
+
+  # ── Optional: simulated phone (test pattern → SRT) ───────────────────────
+  test-stream-source:
+    image: linuxserver/ffmpeg:latest
+    container_name: ocs-test-source
+    profiles: [demo]
+    <<: *restart-policy
+    depends_on:
+      mediamtx:
+        condition: service_started
+    volumes:
+      - ./docker/test-stream-source/run.sh:/run.sh:ro
+    entrypoint: ["/bin/sh", "/run.sh"]
+    environment:
+      TARGET_HOST: mediamtx
+      TARGET_PORT: 8890
+      STREAM_NAME: cam
+    networks: [ocs]
+
+  # ── Optional: FFmpeg compositor (overlay + push) ─────────────────────────
+  ffmpeg-compositor:
+    image: linuxserver/ffmpeg:latest
+    container_name: ocs-compositor
+    profiles: [stream]
+    <<: *restart-policy
+    depends_on:
+      mediamtx:
+        condition: service_started
+      score-engine:
+        condition: service_started
+    volumes:
+      - ./docker/compositor/run.sh:/run.sh:ro
+      - ./docker/compositor/transparent.png:/placeholder.png:ro
+      - ocs-data:/overlay
+      - ocs-recordings:/out
+    entrypoint: ["/bin/sh", "/run.sh"]
+    environment:
+      INPUT_URL: rtmp://mediamtx:1935/cam
+      OUTPUT_URL: ${OUTPUT_URL:-file:///out/local.mp4}
+      OVERLAY_PNG: /overlay/overlay-out/overlay.png
+      VIDEO_CODEC: ${VIDEO_CODEC:-libx264}
+    networks: [ocs]
+
+  # ── Optional: Samba share so PCS Pro can write into score-in ─────────────
+  samba:
+    image: dperson/samba:latest
+    container_name: ocs-samba
+    profiles: [share]
+    <<: *restart-policy
+    ports:
+      - "${SMB_PORT:-1445}:445"
+    volumes:
+      - ocs-data:/srv/score-in
+    command: >
+      -p
+      -s "score-in;/srv/score-in;yes;no;yes;all;none"
+      -u "scorer;cricket-scorer"
+    networks: [ocs]
+
+volumes:
+  ocs-data:
+    name: ocs-data
+  ocs-recordings:
+    name: ocs-recordings
+
+networks:
+  ocs:
+    name: ocs
+    driver: bridge

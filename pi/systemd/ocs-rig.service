@@ -1,0 +1,25 @@
+[Unit]
+Description=open-cricket-stream rig (docker compose)
+Documentation=https://github.com/sahilt20/open-cricket-stream
+After=docker.service network-online.target
+Requires=docker.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=__REPO_ROOT__
+User=__USER__
+Group=__USER__
+
+# Bring the stack up with the streaming profile (mediamtx + engine + pwa + compositor).
+# Drop --profile stream if you don't want the FFmpeg compositor running at boot.
+ExecStart=/usr/bin/docker compose --profile stream up -d --remove-orphans
+ExecStop=/usr/bin/docker compose --profile stream down
+
+# Systemd doesn't kill the underlying Docker containers when the unit stops,
+# so the ExecStop above gives us a clean shutdown.
+TimeoutStartSec=600
+
+[Install]
+WantedBy=multi-user.target

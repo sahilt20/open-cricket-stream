@@ -8,12 +8,15 @@ An open-source, fixed-cost replacement for FrogBox-style live cricket streaming.
 
 | Path | Purpose |
 |---|---|
-| [`packages/score-engine/`](packages/score-engine/) | Node + TypeScript backend on the Pi. Owns the canonical `MatchState`. Two source adapters. |
+| [`Dockerfile`](Dockerfile) | Multi-target build (`engine`, `pwa`). Same images run locally and on the Pi. |
+| [`docker-compose.yml`](docker-compose.yml) | Local stack: engine, MediaMTX, PWA, plus optional simulated-phone and compositor profiles. |
+| [`packages/score-engine/`](packages/score-engine/) | Node + TypeScript backend. Owns the canonical `MatchState`. Two source adapters. |
 | [`packages/scoring-pwa/`](packages/scoring-pwa/) | Progressive web app for ball-by-ball scoring (React + Vite + Tailwind). |
+| [`packages/db/`](packages/db/) | Supabase schema, RLS, typed client. The durable tier (fixtures, history, players). |
 | [`packages/overlay-templates/`](packages/overlay-templates/) | HTML/CSS scoreboard overlays. Rendered to PNG, composited by FFmpeg. |
-| [`pi/`](pi/) | Provisioning for the Raspberry Pi 5: systemd units, hostapd/dnsmasq for AP mode, Samba share, Caddy, MediaMTX config. |
+| [`pi/`](pi/) | Pi-specific: setup script, host-only configs (hostapd, dnsmasq), legacy systemd units. |
 | [`pcs-pro/`](pcs-pro/) | Custom Scoreboard Integration template for PCS Pro plus setup notes. |
-| [`docs/`](docs/) | Architecture, hardware BOM, build plan, schema. |
+| [`docs/`](docs/) | Architecture, [data tier](docs/data.md), [local dev](docs/local-development.md), hardware BOM, build plan, schema. |
 
 ## Architecture (one-liner)
 
@@ -28,21 +31,39 @@ phone (Larix → SRT) ─► MediaMTX ─► FFmpeg ─► YouTube
 
 The Score Engine is **source-agnostic**: both adapters normalise into the same `MatchState`, so the overlay renderer doesn't care who's scoring. Adapter is selectable per-match. See [docs/architecture.md](docs/architecture.md).
 
-## Quickstart (development, on a Mac/Linux dev box)
+## Quickstart — run the whole stack locally with Docker
 
-Requires Node 20+.
+Until the Pi arrives, the entire rig (engine, MediaMTX, scoring PWA, FFmpeg compositor, simulated phone) runs in containers on your laptop. The same images deploy to the Pi later.
+
+```bash
+cp .env.example .env       # optional — defaults are fine
+make build                 # build engine + PWA images
+make demo                  # core + simulated phone (test pattern → SRT)
+```
+
+Then open:
+
+- http://localhost:5173 — the scoring PWA
+- http://localhost:8080/healthz — engine health
+- http://localhost:8888/cam/index.m3u8 — HLS preview of the simulated stream
+
+`make stream` adds the FFmpeg compositor (writes a local MP4). `make all` adds the optional Samba share for PCS Pro testing. Full guide: [docs/local-development.md](docs/local-development.md).
+
+## Quickstart — host-mode development (no Docker)
+
+For tight iteration with HMR:
 
 ```bash
 npm install
-npm run dev:engine     # starts score-engine on :8080
-npm run dev:pwa        # starts scoring PWA on :5173 with HMR
+npm run dev:engine     # tsx watch on :8080
+npm run dev:pwa        # Vite dev server on :5173 with HMR
 ```
 
-Open `http://localhost:5173`, tap "+1", and watch the engine log update. The PWA points at `ws://localhost:8080` by default — set `VITE_ENGINE_URL` to override.
+Requires Node 20+. Use this when you're iterating on the engine, reducer, or PWA UI; skip the streaming pipeline. Mix and match: `docker compose up -d mediamtx` plus host-mode engine works fine.
 
 ## Pi deployment
 
-See [pi/README.md](pi/README.md). The `pi/setup.sh` script installs MediaMTX, FFmpeg, Samba, Caddy, hostapd, dnsmasq, and registers the systemd units.
+The Pi runs the same Docker images via `docker compose`. The `pi/setup.sh` script installs Docker + the host-only services (hostapd, dnsmasq for the Wi-Fi AP) and brings the compose stack up at boot. Legacy systemd units are still in [`pi/systemd/`](pi/systemd/) for users who prefer system-managed services. Full guide: [pi/README.md](pi/README.md).
 
 ## Hardware
 
