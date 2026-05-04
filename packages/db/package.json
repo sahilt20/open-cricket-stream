@@ -1,0 +1,36 @@
+{
+  "name": "@ocs/db",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Supabase schema, generated types, and shared client factory for open-cricket-stream",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "default": "./dist/types.js"
+    }
+  },
+  "files": ["dist", "supabase"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "gen-types": "supabase gen types typescript --local > src/types.ts",
+    "db:start": "supabase start",
+    "db:reset": "supabase db reset",
+    "db:push": "supabase db push"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.46.1"
+  },
+  "devDependencies": {
+    "supabase": "^1.219.2",
+    "typescript": "^5.6.3"
+  }
+}

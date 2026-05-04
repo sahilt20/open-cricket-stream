@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body, #root { height: 100%; }
+  body { -webkit-tap-highlight-color: transparent; }
+
+  /* Score-tap buttons need to be properly tappable on a phone — never less than 44pt. */
+  .tap-target { min-height: 56px; min-width: 56px; }
+}

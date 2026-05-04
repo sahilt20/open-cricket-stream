@@ -1,0 +1,29 @@
+{
+  "_comment_": "PCS Pro Custom Scoreboard Integration template for open-cricket-stream. Field names are PCS Pro placeholders — verify against the placeholder list inside PCS Pro Tools > Configuration > Scoreboard.",
+  "_schemaVersion_": 1,
+
+  "matchId": "{{MatchID}}",
+  "inningsIndex": {{CurrentInningsNumber}},
+  "totalRuns": {{TotalRuns}},
+  "wickets": {{TotalWickets}},
+  "ballsBowled": {{TotalBallsBowled}},
+
+  "lastBall": {
+    "over": {{CurrentOver}},
+    "ballInOver": {{CurrentBallInOver}},
+    "isLegal": {{LastBallIsLegal}},
+    "batterRuns": {{LastBallBatterRuns}},
+    "extrasKind": "{{LastBallExtrasKind}}",
+    "extrasRuns": {{LastBallExtrasRuns}},
+    "wicketType": "{{LastBallWicketType}}",
+    "strikerId": "{{StrikerID}}",
+    "nonStrikerId": "{{NonStrikerID}}",
+    "bowlerId": "{{BowlerID}}",
+    "outBatterId": "{{LastBallOutBatterID}}"
+  },
+
+  "_scorer_metadata_": {
+    "softwareVersion": "{{ApplicationVersion}}",
+    "writtenAt": "{{Timestamp}}"
+  }
+}

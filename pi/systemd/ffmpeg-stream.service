@@ -1,0 +1,23 @@
+[Unit]
+Description=open-cricket-stream FFmpeg compositor (MediaMTX → overlay → YouTube)
+After=mediamtx.service score-engine.service
+Wants=mediamtx.service score-engine.service
+
+[Service]
+Type=simple
+User=ocs
+Group=ocs
+EnvironmentFile=/etc/ocs/score-engine.env
+ExecStart=/usr/local/bin/ocs-ffmpeg-stream
+Restart=always
+RestartSec=5
+
+# Hardening
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/ocs
+
+[Install]
+WantedBy=multi-user.target

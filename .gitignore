@@ -1,0 +1,46 @@
+# Node
+node_modules/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+.vite/
+
+# Env files (anything containing the YouTube stream key etc.)
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Runtime artefacts on the Pi
+/var/
+recordings/
+overlay-out/
+*.sqlite
+*.sqlite-journal
+*.db
+*.db-journal
+score-in/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Loose images dropped at the root (mockups, screenshots, paste-ins)
+/ChatGPT Image*.png
+/Screenshot*.png
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Test
+coverage/

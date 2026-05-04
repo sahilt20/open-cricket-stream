@@ -1,0 +1,15 @@
+
+# Appended by pi/setup.sh — open-cricket-stream PCS Pro inbox
+#
+# PCS Pro writes its template output here every ball. The score-engine's
+# file-watcher adapter picks up changes and converts them into BallEvents.
+
+[score-in]
+   path = /srv/score-in
+   browseable = yes
+   read only = no
+   guest ok = yes
+   create mask = 0664
+   directory mask = 0775
+   force user = ocs
+   force group = ocs

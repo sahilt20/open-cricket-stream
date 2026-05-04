@@ -1,0 +1,29 @@
+[Unit]
+Description=open-cricket-stream score engine
+Documentation=https://github.com/sahilt20/open-cricket-stream
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ocs
+Group=ocs
+WorkingDirectory=/opt/ocs/packages/score-engine
+EnvironmentFile=/etc/ocs/score-engine.env
+ExecStart=/usr/bin/node dist/index.js
+Restart=always
+RestartSec=2
+
+# Hardening
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/ocs /srv/score-in
+
+# Resource limits — the Pi has 8GB but we want to leave headroom for FFmpeg.
+MemoryMax=512M
+CPUQuota=80%
+
+[Install]
+WantedBy=multi-user.target

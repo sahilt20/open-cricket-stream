@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>OCS overlay — default</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="transparent">
+    <!--
+      The overlay deliberately occupies only the bottom-left strip and the
+      bottom-right "this over" strip. Everything else is transparent so FFmpeg's
+      overlay filter shows the underlying video frame untouched.
+    -->
+    <div class="overlay" id="root">
+      <div class="card scoreboard">
+        <div class="row teams">
+          <span class="team-name" id="batting-team">—</span>
+          <span class="format" id="format">—</span>
+        </div>
+        <div class="row score">
+          <span class="big tabular" id="runs">0</span>
+          <span class="med tabular">/<span id="wickets">0</span></span>
+          <span class="overs tabular" id="overs">0.0 ov</span>
+        </div>
+        <div class="row meta">
+          <span><span class="label">RR</span> <span class="tabular" id="rr">0.00</span></span>
+          <span class="rrr-wrap" hidden><span class="label">RRR</span> <span class="tabular" id="rrr">0.00</span></span>
+        </div>
+        <div class="row batters">
+          <div class="batter striker"><span id="striker-name">—</span> <span class="tabular" id="striker-line"></span></div>
+          <div class="batter"><span id="non-striker-name">—</span> <span class="tabular" id="non-striker-line"></span></div>
+        </div>
+        <div class="row bowler">
+          <span id="bowler-name">—</span> <span class="tabular" id="bowler-line"></span>
+        </div>
+      </div>
+      <div class="card this-over">
+        <div class="label">This over</div>
+        <div class="balls" id="recent-balls">—</div>
+      </div>
+    </div>
+
+    <script type="module" src="./overlay.js"></script>
+  </body>
+</html>

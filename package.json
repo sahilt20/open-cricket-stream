@@ -1,0 +1,28 @@
+{
+  "name": "open-cricket-stream",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Open-source live cricket streaming + scoring rig (Pi + phone + scorer's choice of UI)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sahilt20/open-cricket-stream"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:engine": "npm run dev --workspace=@ocs/score-engine",
+    "dev:pwa": "npm run dev --workspace=@ocs/scoring-pwa",
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  }
+}

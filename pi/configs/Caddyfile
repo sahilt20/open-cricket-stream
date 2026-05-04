@@ -1,0 +1,29 @@
+# open-cricket-stream — Caddy reverse proxy
+#
+# Caddy is here for two things:
+#   1. HTTPS for the PWA (so service workers and PWA install work properly).
+#   2. A single entry point on :443 that fronts both the score-engine API
+#      and the static PWA build.
+#
+# Caddy generates a self-signed cert for *.ocs.local because the AP has no
+# real DNS. The scorer's browser will need to accept the cert once.
+
+{
+  local_certs
+  admin off
+}
+
+score.ocs.local {
+  tls internal
+
+  # Static PWA build (npm run build → packages/scoring-pwa/dist).
+  root * /opt/ocs/packages/scoring-pwa/dist
+  encode gzip
+  try_files {path} /index.html
+  file_server
+
+  # Engine API + Socket.IO.
+  reverse_proxy /api/* localhost:8080
+  reverse_proxy /socket.io/* localhost:8080
+  reverse_proxy /overlay/* localhost:8080
+}

@@ -1,0 +1,31 @@
+# MediaMTX config — open-cricket-stream
+#
+# Listens for the phone's SRT push on :8890 and exposes the same stream as
+# RTSP/RTMP/HLS for the FFmpeg compositor to pull from. Local network only.
+
+logLevel: info
+logDestinations: [stdout]
+
+# Phone pushes here. SRT is preferred over RTMP for cricket because the leg
+# from the phone to the Pi happens over Wi-Fi and SRT recovers from packet loss.
+srt: yes
+srtAddress: :8890
+
+rtmp: yes
+rtmpAddress: :1935
+
+# Local read-only — the FFmpeg compositor uses this.
+rtsp: yes
+rtspAddress: :8554
+
+# HLS exposed for ad-hoc preview from a laptop on the AP. Disabled in prod
+# if you want to be paranoid about leaking a dev preview.
+hls: yes
+hlsAddress: :8888
+hlsAlwaysRemux: yes
+
+paths:
+  # The phone pushes here. URL: srt://<pi-ip>:8890?streamid=publish:cam
+  cam:
+    source: publisher
+    sourceProtocol: automatic

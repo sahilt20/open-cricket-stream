@@ -1,0 +1,29 @@
+{
+  "_comment_": "What willow-overlay.template renders to after PCS Pro substitutes placeholders. Useful as a fixture for unit-testing the file-watcher adapter.",
+  "_schemaVersion_": 1,
+
+  "matchId": "willow-vs-bedworth-2026-05-12",
+  "inningsIndex": 0,
+  "totalRuns": 84,
+  "wickets": 3,
+  "ballsBowled": 73,
+
+  "lastBall": {
+    "over": 12,
+    "ballInOver": 1,
+    "isLegal": true,
+    "batterRuns": 4,
+    "extrasKind": "",
+    "extrasRuns": 0,
+    "wicketType": "",
+    "strikerId": "wil-7",
+    "nonStrikerId": "wil-3",
+    "bowlerId": "vis-9",
+    "outBatterId": ""
+  },
+
+  "_scorer_metadata_": {
+    "softwareVersion": "PCS Pro 2026.4",
+    "writtenAt": "2026-05-12T14:32:11+01:00"
+  }
+}

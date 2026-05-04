@@ -1,0 +1,22 @@
+[Unit]
+Description=MediaMTX ingest server (SRT, RTMP)
+Documentation=https://github.com/bluenviron/mediamtx
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/mediamtx /etc/ocs/mediamtx.yml
+Restart=always
+RestartSec=2
+User=ocs
+Group=ocs
+
+# Hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
