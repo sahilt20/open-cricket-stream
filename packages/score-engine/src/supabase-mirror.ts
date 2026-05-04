@@ -3,6 +3,12 @@ import type { OcsSupabaseClient } from '@ocs/db';
 import type { BallEvent, MatchState } from './match-state.js';
 import type { MatchStateStore } from './store.js';
 
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+function asUuidOrNull(value: string): string | null {
+  return UUID_REGEX.test(value) ? value : null;
+}
+
 /**
  * Best-effort mirror of every ball event to Supabase.
  *
@@ -32,8 +38,11 @@ export function attachSupabaseMirror(
       .upsert(
         {
           id: state.matchId,
-          home_team_id: state.teams.home.id,
-          away_team_id: state.teams.away.id,
+          // Team IDs are "soft" UUIDs — null when the rig is running without
+          // pre-registered teams. The full team data is still in `meta` so
+          // nothing is lost. See migration 00003_relax_team_refs.sql.
+          home_team_id: asUuidOrNull(state.teams.home.id),
+          away_team_id: asUuidOrNull(state.teams.away.id),
           format: state.format,
           status: state.status,
           toss: state.toss ?? null,

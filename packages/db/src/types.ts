@@ -37,12 +37,12 @@ export type Database = {
         { id?: string; club_id: string; full_name: string; preferred_name?: string | null; play_cricket_id?: string | null; is_junior?: boolean }
       >;
       fixtures: Tbl<
-        { id: string; home_team_id: string; away_team_id: string; starts_at: string; venue: string | null; format: 'T20'|'T40'|'OD'|'Declaration'|'Other'; play_cricket_id: string | null; created_at: string },
-        { id?: string; home_team_id: string; away_team_id: string; starts_at: string; venue?: string | null; format: 'T20'|'T40'|'OD'|'Declaration'|'Other'; play_cricket_id?: string | null }
+        { id: string; home_team_id: string | null; away_team_id: string | null; starts_at: string; venue: string | null; format: 'T20'|'T40'|'OD'|'Declaration'|'Other'; play_cricket_id: string | null; created_at: string },
+        { id?: string; home_team_id?: string | null; away_team_id?: string | null; starts_at: string; venue?: string | null; format: 'T20'|'T40'|'OD'|'Declaration'|'Other'; play_cricket_id?: string | null }
       >;
       matches: Tbl<
-        { id: string; fixture_id: string | null; home_team_id: string; away_team_id: string; format: 'T20'|'T40'|'OD'|'Declaration'|'Other'; status: 'pre-match'|'in-progress'|'innings-break'|'rain'|'completed'; toss: unknown | null; result: string | null; started_at: string; completed_at: string | null; meta: Record<string, unknown> },
-        { id: string; fixture_id?: string | null; home_team_id: string; away_team_id: string; format: 'T20'|'T40'|'OD'|'Declaration'|'Other'; status?: 'pre-match'|'in-progress'|'innings-break'|'rain'|'completed'; toss?: unknown | null; result?: string | null; started_at?: string; completed_at?: string | null; meta?: Record<string, unknown> }
+        { id: string; fixture_id: string | null; home_team_id: string | null; away_team_id: string | null; format: 'T20'|'T40'|'OD'|'Declaration'|'Other'; status: 'pre-match'|'in-progress'|'innings-break'|'rain'|'completed'; toss: unknown | null; result: string | null; started_at: string; completed_at: string | null; meta: Record<string, unknown> },
+        { id: string; fixture_id?: string | null; home_team_id?: string | null; away_team_id?: string | null; format: 'T20'|'T40'|'OD'|'Declaration'|'Other'; status?: 'pre-match'|'in-progress'|'innings-break'|'rain'|'completed'; toss?: unknown | null; result?: string | null; started_at?: string; completed_at?: string | null; meta?: Record<string, unknown> }
       >;
       ball_events: Tbl<
         { id: string; match_id: string; innings_idx: number; over_num: number; ball_in_over: number; is_legal: boolean; batter_runs: number; extras: unknown | null; wicket: unknown | null; striker_id: string; non_striker_id: string; bowler_id: string; ts: string; payload: Record<string, unknown>; synced_at: string },
