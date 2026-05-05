@@ -43,6 +43,16 @@ export type Innings = {
   recentBalls: BallEvent[];
 };
 
+export type DismissalType =
+  | 'bowled'
+  | 'caught'
+  | 'lbw'
+  | 'runOut'
+  | 'stumped'
+  | 'hitWicket'
+  | 'retired'
+  | 'other';
+
 export type BallEvent = {
   id: string;
   inningsIndex: number;
@@ -52,12 +62,13 @@ export type BallEvent = {
   batterRuns: number;
   extras?: { kind: 'wide' | 'noBall' | 'bye' | 'legBye'; runs: number };
   wicket?: {
-    type: string;
+    type: DismissalType;
     outBatterId: string;
     bowlerId?: string;
     fielderId?: string;
     description?: string;
   };
+  replacementBatterId?: string;
   strikerId: string;
   nonStrikerId: string;
   bowlerId: string;
@@ -72,6 +83,7 @@ export type MatchState = {
     home: { id: string; name: string; shortName: string; players: Player[] };
     away: { id: string; name: string; shortName: string; players: Player[] };
   };
+  toss?: { wonBy: string; chose: 'bat' | 'bowl' };
   innings: Innings[];
   currentInningsIndex: number;
   status: 'pre-match' | 'in-progress' | 'innings-break' | 'rain' | 'completed';

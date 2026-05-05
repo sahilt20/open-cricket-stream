@@ -60,6 +60,10 @@ export type Database = {
     Views: Record<string, never>;
     Functions: {
       is_club_admin: { Args: { target_club: string }; Returns: boolean };
+      claim_club: {
+        Args: { club_name: string; short_name: string };
+        Returns: { id: string; name: string; short_name: string; play_cricket_id: string | null; created_at: string };
+      };
     };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;

@@ -71,8 +71,19 @@ export type BallEvent = {
   batterRuns: number;
   extras?: Extras;
   wicket?: Dismissal;
+  /**
+   * When a wicket falls, the scorer can pick the new batter inline. The
+   * reducer replaces whichever current batter (striker or non-striker)
+   * matches `wicket.outBatterId` with a fresh card for this player.
+   */
+  replacementBatterId?: PlayerId;
   strikerId: PlayerId;
   nonStrikerId: PlayerId;
+  /**
+   * When this differs from the currently bowling player, the reducer swaps
+   * in a fresh BowlingCard for the new bowler. Used at the start of every
+   * over, and any mid-innings change of bowler.
+   */
   bowlerId: PlayerId;
   timestamp: number;
 };
@@ -140,6 +151,7 @@ export const BallEventSchema = z.object({
   batterRuns: z.number().int().min(0),
   extras: ExtrasSchema.optional(),
   wicket: DismissalSchema.optional(),
+  replacementBatterId: z.string().optional(),
   strikerId: z.string(),
   nonStrikerId: z.string(),
   bowlerId: z.string(),

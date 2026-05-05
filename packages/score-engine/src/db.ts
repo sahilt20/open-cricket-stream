@@ -37,6 +37,9 @@ export class EventStore {
   private readonly insertStmt: Database.Statement;
   private readonly hasStmt: Database.Statement;
   private readonly listForMatchStmt: Database.Statement;
+  private readonly latestForMatchStmt: Database.Statement;
+  private readonly deleteByIdStmt: Database.Statement;
+  private readonly deleteForMatchStmt: Database.Statement;
 
   constructor(dbPath: string) {
     mkdirSync(dirname(dbPath), { recursive: true });
@@ -53,6 +56,11 @@ export class EventStore {
     this.listForMatchStmt = this.db.prepare(
       'SELECT payload FROM events WHERE match_id = ? ORDER BY ts ASC',
     );
+    this.latestForMatchStmt = this.db.prepare(
+      'SELECT payload FROM events WHERE match_id = ? ORDER BY ts DESC LIMIT 1',
+    );
+    this.deleteByIdStmt = this.db.prepare('DELETE FROM events WHERE id = ?');
+    this.deleteForMatchStmt = this.db.prepare('DELETE FROM events WHERE match_id = ?');
   }
 
   /** Returns true if the event was new and appended, false if already present. */
@@ -76,6 +84,22 @@ export class EventStore {
   replay(matchId: string): BallEvent[] {
     const rows = this.listForMatchStmt.all(matchId) as { payload: string }[];
     return rows.map((r) => JSON.parse(r.payload) as BallEvent);
+  }
+
+  /** Returns the most recently appended event for the match, or null if empty. */
+  latest(matchId: string): BallEvent | null {
+    const row = this.latestForMatchStmt.get(matchId) as { payload: string } | undefined;
+    return row ? (JSON.parse(row.payload) as BallEvent) : null;
+  }
+
+  /** Removes a single event by id. Returns true if a row was deleted. */
+  delete(eventId: string): boolean {
+    return this.deleteByIdStmt.run(eventId).changes > 0;
+  }
+
+  /** Wipes every event for a match — used when starting a fresh match. */
+  deleteAllForMatch(matchId: string): number {
+    return this.deleteForMatchStmt.run(matchId).changes;
   }
 
   close(): void {

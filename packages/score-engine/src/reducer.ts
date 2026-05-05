@@ -5,6 +5,7 @@ import type {
   Innings,
   MatchState,
   Player,
+  PlayerId,
 } from './match-state.js';
 
 const RECENT_BALLS_WINDOW = 12; // last two overs is plenty for the overlay
@@ -15,6 +16,15 @@ const RECENT_BALLS_WINDOW = 12; // last two overs is plenty for the overlay
  *
  * Idempotency is the *caller's* responsibility — check whether the event id has
  * already been applied before calling this. The reducer does not dedupe.
+ *
+ * Lineup changes are handled inline:
+ *   - If `event.bowlerId` differs from the currently-bowling player, the reducer
+ *     swaps in a fresh BowlingCard looked up from the bowling team's roster.
+ *     The previous bowler's stats live on in the event log and can be derived
+ *     by replay; the in-memory current state only carries the active card.
+ *   - If `event.wicket` is set and `event.replacementBatterId` is provided,
+ *     whichever current batter matches `wicket.outBatterId` is replaced with
+ *     a fresh BattingCard for the named player.
  */
 export function applyBallEvent(state: MatchState, event: BallEvent): MatchState {
   const innings = state.innings[event.inningsIndex];
@@ -24,13 +34,14 @@ export function applyBallEvent(state: MatchState, event: BallEvent): MatchState 
     );
   }
 
+  // Swap in the new bowler if the event names someone different.
+  const baseBowler = swapBowlerIfChanged(innings.currentBowler, event.bowlerId, state);
+
   const extrasRuns = event.extras?.runs ?? 0;
   const totalRunsThisBall = event.batterRuns + extrasRuns;
 
-  // Striker faces the ball except for byes/leg-byes/wides (still credited as a faced ball
-  // unless it's a wide; ECB law: wide is not a ball faced).
-  const facedByStriker =
-    !event.extras || event.extras.kind === 'noBall' || event.extras.kind === 'bye' || event.extras.kind === 'legBye';
+  // Striker faces the ball except for wides (ECB law: wide is not a ball faced).
+  const facedByStriker = !event.extras || event.extras.kind !== 'wide';
 
   const striker = updateBatter(innings.currentBatters.striker, {
     runs: event.batterRuns,
@@ -39,7 +50,7 @@ export function applyBallEvent(state: MatchState, event: BallEvent): MatchState 
     sixes: event.batterRuns === 6 ? 1 : 0,
   });
 
-  const bowler = updateBowler(innings.currentBowler, {
+  const bowler = updateBowler(baseBowler, {
     runsConceded: totalRunsThisBall,
     isLegal: event.isLegal,
     wicketCredited: shouldCreditWicketToBowler(event),
@@ -54,8 +65,18 @@ export function applyBallEvent(state: MatchState, event: BallEvent): MatchState 
   const endOfOver = event.isLegal && ballsBowled % 6 === 0 && ballsBowled > innings.ballsBowled;
   const swap = oddRuns !== endOfOver; // XOR
 
-  const nextStriker = swap ? innings.currentBatters.nonStriker : striker;
-  const nextNonStriker = swap ? striker : innings.currentBatters.nonStriker;
+  let nextStriker = swap ? innings.currentBatters.nonStriker : striker;
+  let nextNonStriker = swap ? striker : innings.currentBatters.nonStriker;
+
+  // Replace the dismissed batter with the named replacement, if any.
+  if (event.wicket && event.replacementBatterId) {
+    const replacement = findPlayer(state, event.replacementBatterId);
+    if (replacement) {
+      const fresh = emptyBatting(replacement);
+      if (event.wicket.outBatterId === nextStriker.player.id) nextStriker = fresh;
+      else if (event.wicket.outBatterId === nextNonStriker.player.id) nextNonStriker = fresh;
+    }
+  }
 
   const recentBalls = [...innings.recentBalls, event].slice(-RECENT_BALLS_WINDOW);
 
@@ -80,6 +101,20 @@ export function applyBallEvent(state: MatchState, event: BallEvent): MatchState 
     status: 'in-progress',
     lastUpdated: event.timestamp,
   };
+}
+
+function swapBowlerIfChanged(current: BowlingCard, newBowlerId: PlayerId, state: MatchState): BowlingCard {
+  if (current.player.id === newBowlerId) return current;
+  const player = findPlayer(state, newBowlerId);
+  if (!player) return current; // unknown id — keep current rather than crash
+  return emptyBowling(player);
+}
+
+function findPlayer(state: MatchState, playerId: PlayerId): Player | undefined {
+  return (
+    state.teams.home.players.find((p) => p.id === playerId) ??
+    state.teams.away.players.find((p) => p.id === playerId)
+  );
 }
 
 function updateBatter(
