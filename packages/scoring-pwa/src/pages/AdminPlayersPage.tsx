@@ -93,6 +93,10 @@ export function AdminPlayersPage() {
           description={`${players.length} player${players.length !== 1 ? 's' : ''} in the club registry`}
         />
 
+        <div className="mb-4 rounded-lg border border-white/10 bg-white/[0.02] px-4 py-3 text-xs text-white/50">
+          Players here are available for quick tap-to-select when setting up a match in the Scorer. You can also add visiting team players inline during match setup — they don't need to be in this registry.
+        </div>
+
         <form onSubmit={handleAdd} className="mb-6 space-y-3 rounded-xl border border-white/10 bg-white/[0.03] p-4">
           <h2 className="text-sm font-semibold text-white/80">Add player</h2>
           <div className="flex gap-2">

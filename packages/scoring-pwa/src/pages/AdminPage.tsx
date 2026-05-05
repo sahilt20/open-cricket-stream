@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronRight, Users, UserCircle2 } from 'lucide-react';
+import { ChevronRight, Users, UserCircle2, Tally5 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext.js';
 import { getMyClub, type Club } from '../lib/api.js';
 import { AppShell, ScreenContainer, PageHeader } from '../components/AppShell.js';
@@ -20,18 +20,35 @@ export function AdminPage() {
           title={club?.name ?? 'Club Admin'}
           description={club ? `Short name: ${club.short_name}` : 'Loading club…'}
         />
+
+        {/* Flow explanation */}
+        <div className="mb-5 rounded-xl border border-white/10 bg-white/[0.02] p-4 text-sm text-white/60">
+          <p className="font-semibold text-white/80">How the setup works</p>
+          <ol className="mt-2 space-y-1 pl-4 text-xs list-decimal marker:text-willow-gold">
+            <li>Add your <strong className="text-white/80">Teams</strong> (home, away, or both).</li>
+            <li>Add your <strong className="text-white/80">Players</strong> to the club registry.</li>
+            <li>In the <strong className="text-white/80">Scorer</strong>, tap "New match" — teams and players load automatically for quick selection.</li>
+          </ol>
+        </div>
+
         <div className="space-y-3">
           <NavCard
             to="/admin/teams"
             icon={<Users size={20} />}
             label="Teams"
-            description="Manage your club's teams"
+            description="Add and manage your club's teams"
           />
           <NavCard
             to="/admin/players"
             icon={<UserCircle2 size={20} />}
             label="Players"
-            description="Club player registry — used in match setup"
+            description="Club registry — tap to pick players when setting up a match"
+          />
+          <NavCard
+            to="/scorer"
+            icon={<Tally5 size={20} />}
+            label="Scorer"
+            description="Score a live match"
           />
         </div>
       </ScreenContainer>

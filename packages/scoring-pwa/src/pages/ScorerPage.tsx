@@ -1,10 +1,12 @@
-import { useState, useRef, useEffect, type FormEvent, type ReactNode } from 'react';
-import { RotateCcw, Zap, Plus, X, ChevronRight } from 'lucide-react';
+import { useState, useRef, useEffect, type ReactNode } from 'react';
+import { RotateCcw, Zap, Plus, X, ChevronRight, PlusCircle } from 'lucide-react';
 import { AppShell, ScreenContainer } from '../components/AppShell.js';
 import { Button } from '../components/Button.js';
 import { Modal } from '../components/Modal.js';
 import { FormField, Input } from '../components/Input.js';
 import { useEngine } from '../contexts/EngineContext.js';
+import { useAuth } from '../contexts/AuthContext.js';
+import { listTeams, listPlayers, type Team as DbTeam, type Player as DbPlayer } from '../lib/api.js';
 import type { BallEvent, DismissalType, Innings, MatchState, Player } from '../lib/match-state.js';
 import { cn } from '../lib/cn.js';
 
@@ -31,16 +33,27 @@ const NEEDS_FIELDER = new Set<DismissalType>(['caught', 'stumped', 'runOut']);
 
 export function ScorerPage() {
   const { state, conn, createMatch, sendBall, undo } = useEngine();
+  const [setupMode, setSetupMode] = useState(false);
 
-  if (!state || state.status === 'pre-match') {
+  const showWizard = !state || state.status === 'pre-match' || setupMode;
+
+  const handleCreate = async (s: MatchState) => {
+    const res = await createMatch(s);
+    if (res.ok) {
+      setSetupMode(false);
+    } else {
+      alert(`Failed to create match: ${res.error}`);
+    }
+  };
+
+  if (showWizard) {
     return (
       <div className="min-h-screen bg-willow-night">
         <MatchSetupWizard
           existing={state}
-          onCreate={async (s) => {
-            const res = await createMatch(s);
-            if (!res.ok) alert(`Failed to create match: ${res.error}`);
-          }}
+          canCancel={setupMode}
+          onCancel={() => setSetupMode(false)}
+          onCreate={handleCreate}
         />
       </div>
     );
@@ -79,7 +92,19 @@ export function ScorerPage() {
           />
         )}
 
-        {state.status === 'completed' && <MatchCompleteView state={state} />}
+        {state.status === 'completed' && <MatchCompleteView state={state} onNewMatch={() => setSetupMode(true)} />}
+
+        {/* New match — always accessible at the bottom */}
+        <div className="border-t border-white/10 pt-3">
+          <button
+            type="button"
+            onClick={() => setSetupMode(true)}
+            className="flex w-full items-center justify-center gap-2 py-2 text-xs text-white/30 transition hover:text-white/60"
+          >
+            <PlusCircle size={14} />
+            Start a new match
+          </button>
+        </div>
       </ScreenContainer>
     </AppShell>
   );
@@ -835,14 +860,14 @@ function InningsSetupModal({
 
 // ─── Match complete view ──────────────────────────────────────────────────────
 
-function MatchCompleteView({ state }: { state: MatchState }) {
+function MatchCompleteView({ state, onNewMatch }: { state: MatchState; onNewMatch: () => void }) {
   return (
     <div className="rounded-xl border border-white/10 bg-white/[0.03] p-6 text-center">
       <h2 className="text-xl font-bold text-white">Match complete</h2>
       {state.result && <p className="mt-2 text-willow-gold">{state.result}</p>}
-      <p className="mt-4 text-sm text-white/50">
-        Start a new match from the scorer page.
-      </p>
+      <Button className="mt-4 w-full" icon={<PlusCircle size={16} />} onClick={onNewMatch}>
+        Start next match
+      </Button>
     </div>
   );
 }
@@ -853,9 +878,13 @@ type TeamDraft = { name: string; shortName: string; players: Player[] };
 
 function MatchSetupWizard({
   existing,
+  canCancel,
+  onCancel,
   onCreate,
 }: {
   existing: MatchState | null;
+  canCancel?: boolean;
+  onCancel?: () => void;
   onCreate: (s: MatchState) => Promise<void>;
 }) {
   const [step, setStep] = useState<SetupStep>('format');
@@ -929,11 +958,33 @@ function MatchSetupWizard({
     }
   };
 
+  const STEPS: SetupStep[] = ['format', 'home-team', 'away-team', 'lineup'];
+  const stepIndex = STEPS.indexOf(step);
+
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-4 py-10">
-      <div className="mb-6">
-        <p className="text-xs font-semibold uppercase tracking-widest text-willow-gold">OCS</p>
-        <h1 className="mt-1 text-2xl font-bold text-white">New match</h1>
+      <div className="mb-6 flex items-start justify-between">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-widest text-willow-gold">OCS · New match</p>
+          <h1 className="mt-1 text-2xl font-bold text-white">
+            {step === 'format' ? 'Format' : step === 'home-team' ? 'Home team' : step === 'away-team' ? 'Away team' : 'Lineup'}
+          </h1>
+          <div className="mt-2 flex gap-1">
+            {STEPS.map((s, i) => (
+              <span key={s} className={cn('h-1 w-6 rounded-full', i <= stepIndex ? 'bg-willow-gold' : 'bg-white/20')} />
+            ))}
+          </div>
+        </div>
+        {canCancel && onCancel && (
+          <button
+            type="button"
+            onClick={onCancel}
+            className="mt-1 rounded-lg p-2 text-white/40 hover:bg-white/5 hover:text-white/70"
+            aria-label="Cancel setup"
+          >
+            <X size={20} />
+          </button>
+        )}
       </div>
 
       {/* Step: format */}
@@ -1080,10 +1131,37 @@ function TeamSetupCard({
   onBack: () => void;
   onNext: () => void;
 }) {
+  const { profile } = useAuth();
   const [playerName, setPlayerName] = useState('');
-  const canAdvance = team.name.length >= 2 && team.shortName.length >= 2 && team.players.length >= 2;
+  const [clubTeams, setClubTeams] = useState<DbTeam[]>([]);
+  const [clubPlayers, setClubPlayers] = useState<DbPlayer[]>([]);
+  const [dbLoading, setDbLoading] = useState(false);
 
-  const addPlayer = () => {
+  // Load club teams + players from Supabase on first render if user has a club
+  useEffect(() => {
+    if (!profile?.club_id) return;
+    setDbLoading(true);
+    Promise.all([
+      listTeams(profile.club_id).catch(() => [] as DbTeam[]),
+      listPlayers(profile.club_id).catch(() => [] as DbPlayer[]),
+    ]).then(([teams, players]) => {
+      setClubTeams(teams);
+      setClubPlayers(players);
+    }).finally(() => setDbLoading(false));
+  }, [profile?.club_id]);
+
+  const selectedIds = new Set(team.players.map((p) => p.id));
+
+  const toggleClubPlayer = (p: DbPlayer) => {
+    if (selectedIds.has(p.id)) {
+      onChange({ ...team, players: team.players.filter((x) => x.id !== p.id) });
+    } else {
+      const name = p.preferred_name ?? p.full_name;
+      onChange({ ...team, players: [...team.players, { id: p.id, name }] });
+    }
+  };
+
+  const addManual = () => {
     const name = playerName.trim();
     if (!name) return;
     onChange({ ...team, players: [...team.players, { id: crypto.randomUUID(), name }] });
@@ -1093,16 +1171,35 @@ function TeamSetupCard({
   const removePlayer = (id: string) =>
     onChange({ ...team, players: team.players.filter((p) => p.id !== id) });
 
+  const canAdvance = team.name.length >= 2 && team.shortName.length >= 2 && team.players.length >= 2;
+
   return (
     <WizardCard title={title}>
-      <div className="space-y-3">
+      <div className="space-y-4">
+        {/* Team name row — optionally pre-fill from Supabase team */}
         <div className="flex gap-2">
           <FormField label="Team name" className="flex-1">
+            {clubTeams.length > 0 ? (
+              <select
+                value={clubTeams.find((t) => t.name === team.name)?.id ?? ''}
+                onChange={(e) => {
+                  const t = clubTeams.find((x) => x.id === e.target.value);
+                  if (t) onChange({ ...team, name: t.name, shortName: t.short_name });
+                }}
+                className="w-full rounded-lg border border-white/10 bg-willow-night px-3 py-2.5 text-sm text-white focus:border-willow-gold focus:outline-none"
+              >
+                <option value="">— pick a team or type below —</option>
+                {clubTeams.map((t) => (
+                  <option key={t.id} value={t.id}>{t.name}</option>
+                ))}
+              </select>
+            ) : null}
             <Input
               value={team.name}
               onChange={(e) => onChange({ ...team, name: e.target.value })}
               placeholder="Willow First XI"
               maxLength={120}
+              className={clubTeams.length > 0 ? 'mt-1.5' : ''}
             />
           </FormField>
           <FormField label="Short">
@@ -1116,48 +1213,80 @@ function TeamSetupCard({
           </FormField>
         </div>
 
-        {/* Add player */}
+        {/* Players — pick from club registry if available, or type manually */}
         <div>
-          <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-white/50">
-            Players ({team.players.length})
-          </label>
+          <div className="mb-2 flex items-baseline justify-between">
+            <span className="text-xs font-semibold uppercase tracking-wider text-white/50">
+              Players {team.players.length > 0 && `(${team.players.length} selected)`}
+            </span>
+            {dbLoading && <span className="text-[10px] text-white/30">Loading registry…</span>}
+          </div>
+
+          {/* Club registry chips */}
+          {clubPlayers.length > 0 && (
+            <div className="mb-3">
+              <p className="mb-1.5 text-[10px] uppercase tracking-wider text-white/40">Tap to add from club registry</p>
+              <div className="flex flex-wrap gap-1.5">
+                {clubPlayers.map((p) => {
+                  const selected = selectedIds.has(p.id);
+                  return (
+                    <button
+                      key={p.id}
+                      type="button"
+                      onClick={() => toggleClubPlayer(p)}
+                      className={cn(
+                        'rounded-full px-3 py-1 text-xs font-medium transition',
+                        selected
+                          ? 'bg-willow-gold text-willow-night'
+                          : 'border border-white/15 bg-white/5 text-white/70 hover:border-willow-gold/40 hover:text-white',
+                      )}
+                    >
+                      {selected && '✓ '}{p.preferred_name ?? p.full_name}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Manual add */}
           <div className="flex gap-2">
             <Input
               value={playerName}
               onChange={(e) => setPlayerName(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && addPlayer()}
-              placeholder="Player name"
-              className="flex-1"
+              onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addManual(); } }}
+              placeholder={clubPlayers.length > 0 ? 'Add visitor or unlisted player…' : 'Player name…'}
+              className="flex-1 text-sm"
             />
-            <Button size="sm" variant="secondary" icon={<Plus size={14} />} onClick={addPlayer} disabled={!playerName.trim()}>
+            <Button size="sm" variant="secondary" icon={<Plus size={14} />} onClick={addManual} disabled={!playerName.trim()}>
               Add
             </Button>
           </div>
         </div>
 
-        {/* Player list */}
+        {/* Selected roster */}
         {team.players.length > 0 && (
-          <div className="max-h-40 space-y-1 overflow-y-auto">
-            {team.players.map((p) => (
-              <div
-                key={p.id}
-                className="flex items-center justify-between rounded-lg bg-white/[0.03] px-3 py-2 text-sm"
-              >
-                <span className="text-white">{p.name}</span>
-                <button
-                  type="button"
-                  onClick={() => removePlayer(p.id)}
-                  className="text-white/30 hover:text-rose-400"
-                >
-                  <X size={14} />
-                </button>
-              </div>
-            ))}
+          <div className="space-y-1">
+            <p className="text-[10px] uppercase tracking-wider text-white/40">Selected ({team.players.length})</p>
+            <div className="max-h-36 space-y-1 overflow-y-auto rounded-lg border border-white/10 p-2">
+              {team.players.map((p) => (
+                <div key={p.id} className="flex items-center justify-between rounded px-2 py-1 text-sm hover:bg-white/5">
+                  <span className="text-white">{p.name}</span>
+                  <button type="button" onClick={() => removePlayer(p.id)} className="text-white/30 hover:text-rose-400">
+                    <X size={13} />
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
         {team.players.length < 2 && (
-          <p className="text-xs text-amber-400/80">Add at least 2 players to continue</p>
+          <p className="text-xs text-amber-400/80">
+            {clubPlayers.length > 0
+              ? 'Tap players above or type a name to add. Need at least 2.'
+              : 'Add at least 2 players to continue.'}
+          </p>
         )}
 
         <div className="flex gap-2 pt-1">

@@ -1,4 +1,5 @@
 import { useEffect, useState, type FormEvent } from 'react';
+import { Link } from 'react-router-dom';
 import { Trash2, Plus } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext.js';
 import { listTeams, createTeam, deleteTeam, type Team } from '../lib/api.js';
@@ -59,6 +60,11 @@ export function AdminTeamsPage() {
     <AppShell>
       <ScreenContainer>
         <PageHeader title="Teams" description="Teams registered under your club" />
+
+        <div className="mb-4 rounded-lg border border-white/10 bg-white/[0.02] px-4 py-3 text-xs text-white/50">
+          Teams are used to pre-fill names in the match setup wizard. Players are managed separately in{' '}
+          <Link to="/admin/players" className="text-willow-gold hover:underline">Players</Link> — when starting a match, you pick which players from the registry are in each team.
+        </div>
 
         <form onSubmit={handleAdd} className="mb-6 space-y-3 rounded-xl border border-white/10 bg-white/[0.03] p-4">
           <h2 className="text-sm font-semibold text-white/80">New team</h2>
