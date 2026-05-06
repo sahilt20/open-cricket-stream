@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Match Setup</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Lexend:wght@600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#1f2b39",
+                        "primary-fixed": "#d8e3f5",
+                        "on-background": "#d7e3f7",
+                        "on-surface": "#d7e3f7",
+                        "on-primary-container": "#75808f",
+                        "background": "#081421",
+                        "surface-container-low": "#101c2a",
+                        "secondary-fixed": "#ffe16d",
+                        "outline-variant": "#44474c",
+                        "on-primary-fixed-variant": "#3d4855",
+                        "secondary-fixed-dim": "#e9c400",
+                        "on-tertiary-fixed-variant": "#004f58",
+                        "on-secondary-container": "#725f00",
+                        "on-secondary-fixed-variant": "#544600",
+                        "on-primary-fixed": "#121c29",
+                        "tertiary-container": "#00181c",
+                        "error-container": "#93000a",
+                        "surface-container": "#14202e",
+                        "on-tertiary-fixed": "#001f24",
+                        "tertiary": "#00daf3",
+                        "surface": "#081421",
+                        "surface-container-highest": "#2a3644",
+                        "secondary": "#fff9ef",
+                        "tertiary-fixed-dim": "#00daf3",
+                        "surface-variant": "#2a3644",
+                        "secondary-container": "#ffdb3c",
+                        "surface-bright": "#2e3a49",
+                        "on-surface-variant": "#c5c6cc",
+                        "surface-tint": "#bcc7d8",
+                        "on-tertiary-container": "#008c9d",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-lowest": "#030f1c",
+                        "outline": "#8e9196",
+                        "tertiary-fixed": "#9cf0ff",
+                        "primary-container": "#0b1622",
+                        "on-tertiary": "#00363d",
+                        "inverse-surface": "#d7e3f7",
+                        "on-error": "#690005",
+                        "on-secondary-fixed": "#221b00",
+                        "on-primary": "#27313e",
+                        "primary-fixed-dim": "#bcc7d8",
+                        "surface-dim": "#081421",
+                        "inverse-primary": "#545f6e",
+                        "on-secondary": "#3a3000",
+                        "inverse-on-surface": "#253140",
+                        "error": "#ffb4ab",
+                        "primary": "#bcc7d8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "margin": "24px",
+                        "gutter": "16px",
+                        "unit": "4px",
+                        "stack-md": "16px",
+                        "stack-lg": "32px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["lexend"],
+                        "label-caps": ["inter"],
+                        "body-sm": ["inter"],
+                        "body-lg": ["inter"],
+                        "headline-lg": ["lexend"],
+                        "display-score": ["lexend"],
+                        "data-tabular": ["inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-score": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-tabular": ["15px", { "lineHeight": "1", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-lg antialiased min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface text-primary dark:text-primary docked full-width top-0 z-50 border-b border-outline-variant dark:border-outline-variant flat no shadows flex justify-between items-center w-full px-gutter h-16 shrink-0">
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div class="text-headline-lg font-headline-lg font-black text-secondary-container dark:text-secondary-fixed">
+                PRO CRICKET LIVE
+            </div>
+</div>
+<div class="flex items-center gap-2">
+<!-- Trailing actions suppressed for setup screen as it's a linear/focused flow -->
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col w-full max-w-md mx-auto h-full overflow-hidden">
+<!-- Tab Navigation (Mobile) -->
+<nav class="bg-surface-container-low border-b border-outline-variant shrink-0">
+<ul class="flex w-full">
+<li class="flex-1">
+<button class="w-full py-4 text-center border-b-2 border-secondary-container text-secondary-container font-label-caps text-label-caps">
+                        MATCH INFO
+                    </button>
+</li>
+<li class="flex-1">
+<button class="w-full py-4 text-center border-b-2 border-transparent text-on-surface-variant font-label-caps text-label-caps hover:bg-surface-container-highest transition-all">
+                        HOME TEAM
+                    </button>
+</li>
+<li class="flex-1">
+<button class="w-full py-4 text-center border-b-2 border-transparent text-on-surface-variant font-label-caps text-label-caps hover:bg-surface-container-highest transition-all">
+                        AWAY TEAM
+                    </button>
+</li>
+</ul>
+</nav>
+<!-- Form Area (Scrollable) -->
+<div class="flex-1 overflow-y-auto p-gutter space-y-stack-lg">
+<section class="space-y-stack-md">
+<h2 class="text-headline-md font-headline-md text-on-surface">Match Details</h2>
+<div class="space-y-stack-sm">
+<label class="block text-label-caps font-label-caps text-on-surface-variant">SERIES / TOURNAMENT</label>
+<input class="w-full bg-surface-container-high border border-outline-variant rounded-lg p-3 text-on-surface font-body-lg focus:border-tertiary focus:ring-1 focus:ring-tertiary outline-none transition-colors" type="text" value="Summer T20 Bash"/>
+</div>
+<div class="space-y-stack-sm">
+<label class="block text-label-caps font-label-caps text-on-surface-variant">MATCH TYPE</label>
+<select class="w-full bg-surface-container-high border border-outline-variant rounded-lg p-3 text-on-surface font-body-lg focus:border-tertiary focus:ring-1 focus:ring-tertiary outline-none transition-colors appearance-none">
+<option>T20</option>
+<option>ODI</option>
+<option>Test</option>
+<option>Custom</option>
+</select>
+</div>
+<div class="grid grid-cols-2 gap-gutter">
+<div class="space-y-stack-sm">
+<label class="block text-label-caps font-label-caps text-on-surface-variant">OVERS</label>
+<input class="w-full bg-surface-container-high border border-outline-variant rounded-lg p-3 text-on-surface font-data-tabular focus:border-tertiary focus:ring-1 focus:ring-tertiary outline-none transition-colors text-right" type="number" value="20"/>
+</div>
+<div class="space-y-stack-sm">
+<label class="block text-label-caps font-label-caps text-on-surface-variant">OVERS PER BOWLER</label>
+<input class="w-full bg-surface-container-high border border-outline-variant rounded-lg p-3 text-on-surface font-data-tabular focus:border-tertiary focus:ring-1 focus:ring-tertiary outline-none transition-colors text-right" type="number" value="4"/>
+</div>
+</div>
+</section>
+<section class="space-y-stack-md">
+<h2 class="text-headline-md font-headline-md text-on-surface">Venue Information</h2>
+<div class="space-y-stack-sm">
+<label class="block text-label-caps font-label-caps text-on-surface-variant">GROUND NAME</label>
+<input class="w-full bg-surface-container-high border border-outline-variant rounded-lg p-3 text-on-surface font-body-lg focus:border-tertiary focus:ring-1 focus:ring-tertiary outline-none transition-colors" placeholder="Enter venue name" type="text"/>
+</div>
+<div class="space-y-stack-sm">
+<label class="block text-label-caps font-label-caps text-on-surface-variant">PITCH TYPE</label>
+<div class="flex gap-2">
+<button class="flex-1 py-2 px-3 bg-secondary-container text-on-secondary-container font-body-sm font-semibold rounded border border-transparent">Hard</button>
+<button class="flex-1 py-2 px-3 bg-surface-container-high text-on-surface-variant font-body-sm rounded border border-outline-variant hover:bg-surface-variant">Dusty</button>
+<button class="flex-1 py-2 px-3 bg-surface-container-high text-on-surface-variant font-body-sm rounded border border-outline-variant hover:bg-surface-variant">Green</button>
+</div>
+</div>
+</section>
+</div>
+<!-- Sticky Footer Actions -->
+<div class="bg-surface-container border-t border-outline-variant p-gutter shrink-0 flex gap-gutter">
+<button class="flex-1 py-3 px-4 bg-transparent border border-outline text-on-surface font-body-lg font-semibold rounded-lg hover:bg-surface-variant transition-colors text-center">
+                CANCEL
+            </button>
+<button class="flex-1 py-3 px-4 bg-secondary-container text-on-secondary-container font-body-lg font-bold rounded-lg hover:bg-secondary-fixed-dim transition-colors text-center flex items-center justify-center gap-2">
+                NEXT <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</main>
+</body></html>

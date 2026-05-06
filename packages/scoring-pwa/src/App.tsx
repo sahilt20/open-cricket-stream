@@ -4,8 +4,7 @@ import { EngineProvider } from './contexts/EngineContext.js';
 import { ProtectedRoute } from './components/ProtectedRoute.js';
 
 import { HomePage } from './pages/HomePage.js';
-import { SignInPage } from './pages/SignInPage.js';
-import { SignUpPage } from './pages/SignUpPage.js';
+import { AuthPage } from './pages/AuthPage.js';
 import { OnboardingPage } from './pages/OnboardingPage.js';
 import { ScorerPage } from './pages/ScorerPage.js';
 import { AdminPage } from './pages/AdminPage.js';
@@ -19,11 +18,11 @@ export function App() {
       <AuthProvider>
         <EngineProvider>
           <Routes>
-            {/* Public */}
-            <Route path="/auth/signin" element={<SignInPage />} />
-            <Route path="/auth/signup" element={<SignUpPage />} />
+            {/* Auth — unified tab switcher */}
+            <Route path="/auth/signin" element={<AuthPage defaultTab="signin" />} />
+            <Route path="/auth/signup" element={<AuthPage defaultTab="signup" />} />
 
-            {/* Needs auth, no club yet */}
+            {/* Onboarding — needs auth, no club yet */}
             <Route
               path="/onboarding"
               element={
@@ -79,7 +78,6 @@ export function App() {
               }
             />
 
-            {/* 404 */}
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </EngineProvider>

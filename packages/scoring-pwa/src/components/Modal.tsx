@@ -37,7 +37,7 @@ export function Modal({ open, onClose, title, description, children, footer, siz
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center p-0 sm:items-center sm:p-4">
       <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-in"
+        className="absolute inset-0 bg-black/70 backdrop-blur-sm animate-fade-in"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -45,8 +45,8 @@ export function Modal({ open, onClose, title, description, children, footer, siz
         role="dialog"
         aria-modal="true"
         className={cn(
-          'relative w-full rounded-t-2xl border border-white/10 bg-willow-night shadow-2xl sm:rounded-2xl',
-          'animate-slide-up',
+          'relative w-full rounded-t-2xl border border-pitch-border bg-pitch-surface shadow-2xl shadow-black/60 sm:rounded-2xl',
+          'animate-sheet-up',
           sizes[size],
         )}
       >
@@ -59,14 +59,14 @@ export function Modal({ open, onClose, title, description, children, footer, siz
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="-m-1 rounded-md p-1 text-white/50 hover:bg-white/5 hover:text-white"
+            className="-m-1 rounded-lg p-1 text-white/40 hover:bg-pitch-raised hover:text-white/80 transition-colors"
           >
             <X size={20} />
           </button>
         </header>
         <div className="px-5 pb-5">{children}</div>
         {footer && (
-          <footer className="flex justify-end gap-2 border-t border-white/10 px-5 py-3">{footer}</footer>
+          <footer className="flex justify-end gap-2 border-t border-pitch-border px-5 py-3">{footer}</footer>
         )}
       </div>
     </div>

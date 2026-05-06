@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Live Scoring Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@600;700;900&amp;family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-high": "#1f2b39",
+                      "primary-fixed": "#d8e3f5",
+                      "on-background": "#d7e3f7",
+                      "on-surface": "#d7e3f7",
+                      "on-primary-container": "#75808f",
+                      "background": "#081421",
+                      "surface-container-low": "#101c2a",
+                      "secondary-fixed": "#ffe16d",
+                      "outline-variant": "#44474c",
+                      "on-primary-fixed-variant": "#3d4855",
+                      "secondary-fixed-dim": "#e9c400",
+                      "on-tertiary-fixed-variant": "#004f58",
+                      "on-secondary-container": "#725f00",
+                      "on-secondary-fixed-variant": "#544600",
+                      "on-primary-fixed": "#121c29",
+                      "tertiary-container": "#00181c",
+                      "error-container": "#93000a",
+                      "surface-container": "#14202e",
+                      "on-tertiary-fixed": "#001f24",
+                      "tertiary": "#00daf3",
+                      "surface": "#081421",
+                      "surface-container-highest": "#2a3644",
+                      "secondary": "#fff9ef",
+                      "tertiary-fixed-dim": "#00daf3",
+                      "surface-variant": "#2a3644",
+                      "secondary-container": "#ffdb3c",
+                      "surface-bright": "#2e3a49",
+                      "on-surface-variant": "#c5c6cc",
+                      "surface-tint": "#bcc7d8",
+                      "on-tertiary-container": "#008c9d",
+                      "on-error-container": "#ffdad6",
+                      "surface-container-lowest": "#030f1c",
+                      "outline": "#8e9196",
+                      "tertiary-fixed": "#9cf0ff",
+                      "primary-container": "#0b1622",
+                      "on-tertiary": "#00363d",
+                      "inverse-surface": "#d7e3f7",
+                      "on-error": "#690005",
+                      "on-secondary-fixed": "#221b00",
+                      "on-primary": "#27313e",
+                      "primary-fixed-dim": "#bcc7d8",
+                      "surface-dim": "#081421",
+                      "inverse-primary": "#545f6e",
+                      "on-secondary": "#3a3000",
+                      "inverse-on-surface": "#253140",
+                      "error": "#ffb4ab",
+                      "primary": "#bcc7d8"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "stack-sm": "8px",
+                      "margin": "24px",
+                      "gutter": "16px",
+                      "unit": "4px",
+                      "stack-md": "16px",
+                      "stack-lg": "32px",
+                      "container-max": "1440px"
+              },
+              "fontFamily": {
+                      "headline-md": [
+                              "Lexend"
+                      ],
+                      "label-caps": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Lexend"
+                      ],
+                      "display-score": [
+                              "Lexend"
+                      ],
+                      "data-tabular": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "headline-md": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-score": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "data-tabular": [
+                              "15px",
+                              {
+                                      "lineHeight": "1",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-sm min-h-screen flex flex-col antialiased">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface text-primary dark:text-primary docked full-width top-0 z-50 border-b border-outline-variant dark:border-outline-variant flat no shadows flex justify-between items-center w-full px-gutter h-16 sticky">
+<div class="flex items-center gap-4">
+<span class="text-headline-lg font-headline-lg font-black text-secondary-container dark:text-secondary-fixed tracking-tight">PRO CRICKET LIVE</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-label-caps font-label-caps animate-pulse text-error">LIVE • 142/3 (18.4)</span>
+<div class="flex gap-2">
+<button class="hover:bg-surface-container-high transition-colors p-2 rounded-full text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined">sensors</span>
+</button>
+<button class="hover:bg-surface-container-high transition-colors p-2 rounded-full text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined">videocam</span>
+</button>
+<button class="hover:bg-surface-container-high transition-colors p-2 rounded-full text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col p-gutter gap-stack-md overflow-y-auto">
+<!-- Score Bug Component -->
+<div class="bg-surface-container border border-outline-variant rounded-lg p-stack-md flex flex-col items-center justify-center relative overflow-hidden shadow-sm">
+<div class="absolute inset-0 bg-gradient-to-b from-transparent to-surface-container-low opacity-50 pointer-events-none"></div>
+<div class="text-label-caps font-label-caps text-on-surface-variant mb-unit z-10">INDIA VS AUSTRALIA</div>
+<div class="flex items-baseline gap-2 z-10">
+<span class="text-display-score font-display-score text-on-surface">142</span>
+<span class="text-headline-lg font-headline-lg text-on-surface-variant">/ 3</span>
+</div>
+<div class="text-data-tabular font-data-tabular text-tertiary mt-2 z-10">Overs: 18.4  |  RR: 7.60</div>
+<div class="mt-4 flex gap-4 w-full justify-between items-center z-10 px-stack-md">
+<div class="flex flex-col items-start">
+<span class="text-label-caps font-label-caps text-on-surface-variant">BATSMAN</span>
+<span class="text-body-lg font-body-lg font-semibold text-on-surface">V. Kohli * <span class="text-secondary-fixed">64 (42)</span></span>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-label-caps font-label-caps text-on-surface-variant">BOWLER</span>
+<span class="text-body-lg font-body-lg font-semibold text-on-surface">P. Cummins <span class="text-tertiary">2-18 (3.4)</span></span>
+</div>
+</div>
+</div>
+<!-- In the Middle / Pitch Map (Collapsible) -->
+<details class="bg-surface-container border border-outline-variant rounded-lg group overflow-hidden">
+<summary class="flex justify-between items-center p-stack-sm px-stack-md cursor-pointer bg-surface-container-highest select-none list-none [&amp;::-webkit-details-marker]:hidden">
+<span class="text-headline-md font-headline-md text-on-surface">In the Middle &amp; Map</span>
+<span class="material-symbols-outlined text-on-surface-variant transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="p-stack-md grid grid-cols-2 gap-stack-md border-t border-outline-variant bg-surface-container-low">
+<div class="flex flex-col gap-2">
+<span class="text-label-caps font-label-caps text-on-surface-variant border-b border-outline-variant pb-1">NON-STRIKER</span>
+<span class="text-body-lg font-body-lg text-on-surface">S. Yadav <span class="text-secondary-fixed pl-2">22 (14)</span></span>
+</div>
+<div class="flex flex-col gap-2 items-end">
+<span class="text-label-caps font-label-caps text-on-surface-variant border-b border-outline-variant pb-1 w-full text-right">LAST WICKET</span>
+<span class="text-body-lg font-body-lg text-on-surface">R. Sharma c Smith b Starc <span class="text-error pl-2">45</span></span>
+</div>
+<!-- Mock Field Map Area -->
+<div class="col-span-2 h-32 rounded-lg bg-surface border border-outline-variant flex items-center justify-center relative overflow-hidden mt-2">
+<img alt="Mock cricket field map" class="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-luminosity" data-alt="A highly stylized, top-down technical view of a cricket pitch, rendered in deep navy and muted greens to match a corporate sports broadcast UI. The map shows tactical fielding positions as subtle geometric dots and glowing lines. The lighting is digital and synthetic, prioritizing high-contrast data visualization over realism." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8uqmJ6QAcjNzPMiaAmEFdIsNsoNJyPJXP-l45QyOu22l48Ri7YoZ6u23rBYDCxatoh0dYDOEWBHyhAVAGSRSpQ_8XMjd4XugZwav8jaRnZaFOsDPgPRaauuC-VyrS5b6-Qw9BoL8oW64ksgi1S_Hk-jmQiXWCVHLI-wCbtQsqsFUWXI0cusWI7V5BtOdxwwReSH0XMxxDzcNLIgqyRwy0tGgnBAxHqe0l923uacJlgdulIz0SNcuKxeW1v6Zz_p5FLdEtg1b4cHs"/>
+<span class="text-label-caps font-label-caps text-on-surface-variant z-10 bg-surface/80 px-2 py-1 rounded">FIELD PLACEMENT MAP</span>
+</div>
+</div>
+</details>
+<!-- Current Over Summary -->
+<div class="bg-surface-container border border-outline-variant rounded-lg p-stack-md">
+<span class="text-label-caps font-label-caps text-on-surface-variant mb-stack-sm block">THIS OVER</span>
+<div class="flex gap-2 justify-start items-center">
+<span class="w-8 h-8 rounded-full bg-surface border border-outline-variant flex items-center justify-center text-data-tabular font-data-tabular text-on-surface">1</span>
+<span class="w-8 h-8 rounded-full bg-surface border border-outline-variant flex items-center justify-center text-data-tabular font-data-tabular text-on-surface">0</span>
+<span class="w-8 h-8 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center text-data-tabular font-data-tabular font-bold shadow-[0_0_8px_rgba(255,225,109,0.3)]">4</span>
+<span class="w-8 h-8 rounded-full bg-error-container text-on-error-container flex items-center justify-center text-data-tabular font-data-tabular font-bold">W</span>
+<span class="w-8 h-8 rounded-full bg-surface border border-outline-variant flex items-center justify-center text-data-tabular font-data-tabular text-on-surface border-dashed"></span>
+<span class="w-8 h-8 rounded-full bg-surface border border-outline-variant flex items-center justify-center text-data-tabular font-data-tabular text-on-surface border-dashed"></span>
+</div>
+</div>
+<!-- Thumb-Friendly Scoring Grid (Bottom Fixed-ish Area) -->
+<div class="mt-auto pt-stack-md pb-stack-lg border-t border-outline-variant bg-surface sticky bottom-0 z-40 px-gutter -mx-gutter">
+<div class="grid grid-cols-4 gap-unit mb-unit">
+<button class="bg-surface-container-high border border-outline-variant hover:bg-surface-bright active:bg-primary-container transition-colors rounded-xl py-4 flex flex-col items-center justify-center shadow-sm">
+<span class="text-headline-lg font-headline-lg font-bold text-on-surface">0</span>
+<span class="text-[10px] font-label-caps text-on-surface-variant uppercase mt-1">Dot</span>
+</button>
+<button class="bg-surface-container-high border border-outline-variant hover:bg-surface-bright active:bg-primary-container transition-colors rounded-xl py-4 flex flex-col items-center justify-center shadow-sm">
+<span class="text-headline-lg font-headline-lg font-bold text-on-surface">1</span>
+<span class="text-[10px] font-label-caps text-on-surface-variant uppercase mt-1">Run</span>
+</button>
+<button class="bg-surface-container-high border border-outline-variant hover:bg-surface-bright active:bg-primary-container transition-colors rounded-xl py-4 flex flex-col items-center justify-center shadow-sm">
+<span class="text-headline-lg font-headline-lg font-bold text-on-surface">2</span>
+<span class="text-[10px] font-label-caps text-on-surface-variant uppercase mt-1">Runs</span>
+</button>
+<button class="bg-surface-container-high border border-outline-variant hover:bg-surface-bright active:bg-primary-container transition-colors rounded-xl py-4 flex flex-col items-center justify-center shadow-sm">
+<span class="text-headline-lg font-headline-lg font-bold text-on-surface">3</span>
+<span class="text-[10px] font-label-caps text-on-surface-variant uppercase mt-1">Runs</span>
+</button>
+</div>
+<div class="grid grid-cols-3 gap-unit mb-unit">
+<button class="bg-secondary-container text-on-secondary-container hover:bg-secondary-fixed transition-colors rounded-xl py-6 flex flex-col items-center justify-center shadow-md border border-secondary-fixed-dim">
+<span class="text-headline-lg font-headline-lg font-bold">4</span>
+<span class="text-[10px] font-label-caps uppercase mt-1">Four</span>
+</button>
+<button class="bg-secondary-container text-on-secondary-container hover:bg-secondary-fixed transition-colors rounded-xl py-6 flex flex-col items-center justify-center shadow-md border border-secondary-fixed-dim">
+<span class="text-headline-lg font-headline-lg font-bold">6</span>
+<span class="text-[10px] font-label-caps uppercase mt-1">Six</span>
+</button>
+<button class="bg-error-container text-on-error-container hover:bg-error transition-colors rounded-xl py-6 flex flex-col items-center justify-center shadow-md border border-error">
+<span class="text-headline-lg font-headline-lg font-bold">W</span>
+<span class="text-[10px] font-label-caps uppercase mt-1">Wicket</span>
+</button>
+</div>
+<div class="grid grid-cols-4 gap-unit">
+<button class="bg-surface-container border border-outline-variant hover:bg-surface-bright transition-colors rounded-lg py-2 flex items-center justify-center">
+<span class="text-label-caps font-label-caps text-on-surface">WD</span>
+</button>
+<button class="bg-surface-container border border-outline-variant hover:bg-surface-bright transition-colors rounded-lg py-2 flex items-center justify-center">
+<span class="text-label-caps font-label-caps text-on-surface">NB</span>
+</button>
+<button class="bg-surface-container border border-outline-variant hover:bg-surface-bright transition-colors rounded-lg py-2 flex items-center justify-center">
+<span class="text-label-caps font-label-caps text-on-surface">LB</span>
+</button>
+<button class="bg-surface-container border border-outline-variant hover:bg-surface-bright transition-colors rounded-lg py-2 flex items-center justify-center">
+<span class="text-label-caps font-label-caps text-on-surface">B</span>
+</button>
+</div>
+</div>
+</main>
+</body></html>

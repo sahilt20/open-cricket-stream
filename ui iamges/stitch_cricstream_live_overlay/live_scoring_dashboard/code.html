@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pro Cricket Live - Scoring Interface</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Lexend:wght@600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#544600",
+                        "surface-bright": "#2e3a49",
+                        "inverse-on-surface": "#253140",
+                        "on-surface": "#d7e3f7",
+                        "surface-container-low": "#101c2a",
+                        "tertiary-fixed-dim": "#00daf3",
+                        "on-primary": "#27313e",
+                        "on-tertiary-fixed": "#001f24",
+                        "surface-dim": "#081421",
+                        "secondary": "#fff9ef",
+                        "secondary-container": "#ffdb3c",
+                        "surface-variant": "#2a3644",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed": "#9cf0ff",
+                        "on-secondary-container": "#725f00",
+                        "on-tertiary-fixed-variant": "#004f58",
+                        "surface-container-lowest": "#030f1c",
+                        "tertiary-container": "#00181c",
+                        "on-tertiary": "#00363d",
+                        "outline": "#8e9196",
+                        "on-primary-fixed": "#121c29",
+                        "surface-container": "#14202e",
+                        "inverse-primary": "#545f6e",
+                        "error-container": "#93000a",
+                        "on-primary-fixed-variant": "#3d4855",
+                        "on-tertiary-container": "#008c9d",
+                        "outline-variant": "#44474c",
+                        "on-primary-container": "#75808f",
+                        "tertiary": "#00daf3",
+                        "surface-container-high": "#1f2b39",
+                        "surface-container-highest": "#2a3644",
+                        "on-surface-variant": "#c5c6cc",
+                        "background": "#081421",
+                        "on-secondary": "#3a3000",
+                        "on-secondary-fixed": "#221b00",
+                        "surface-tint": "#bcc7d8",
+                        "primary-fixed-dim": "#bcc7d8",
+                        "primary-container": "#0b1622",
+                        "primary": "#bcc7d8",
+                        "surface": "#081421",
+                        "primary-fixed": "#d8e3f5",
+                        "inverse-surface": "#d7e3f7",
+                        "error": "#ffb4ab",
+                        "secondary-fixed": "#ffe16d",
+                        "on-error": "#690005",
+                        "on-background": "#d7e3f7",
+                        "secondary-fixed-dim": "#e9c400"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "stack-sm": "8px",
+                        "margin": "24px",
+                        "stack-lg": "32px",
+                        "unit": "4px",
+                        "stack-md": "16px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Lexend", "sans-serif"],
+                        "body-sm": ["Inter", "sans-serif"],
+                        "data-tabular": ["Inter", "sans-serif"],
+                        "headline-lg": ["Lexend", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "display-score": ["Lexend", "sans-serif"],
+                        "label-caps": ["Inter", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "data-tabular": ["15px", { "lineHeight": "1", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-score": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .pulse-live { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased selection:bg-secondary-container selection:text-on-secondary-container min-h-screen flex flex-col font-body-sm">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface text-primary dark:text-primary w-full fixed top-0 z-50 border-b border-outline-variant dark:border-outline-variant flex justify-between items-center px-gutter h-16 shadow-none">
+<div class="flex items-center gap-stack-md">
+<span class="text-headline-lg font-headline-lg font-black text-secondary-container dark:text-secondary-fixed tracking-tight">PRO CRICKET LIVE</span>
+</div>
+<div class="flex items-center gap-margin">
+<div class="flex items-center gap-stack-sm bg-surface-container-high px-3 py-1 rounded-full border border-outline-variant">
+<span class="w-2 h-2 rounded-full bg-error pulse-live"></span>
+<span class="text-label-caps font-label-caps text-on-surface">LIVE • 142/3 (18.4)</span>
+</div>
+<div class="flex items-center gap-stack-sm">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">sensors</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">videocam</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<div class="flex flex-1 pt-[64px]">
+<!-- SideNavBar -->
+<nav class="bg-surface-container dark:bg-surface-container text-primary dark:text-primary border-r border-outline-variant hidden lg:flex flex-col h-[calc(100vh-64px)] py-margin fixed left-0 w-64 z-40">
+<div class="px-margin mb-margin">
+<div class="flex items-center gap-stack-sm mb-unit">
+<img alt="Production Logo" class="w-8 h-8 rounded-DEFAULT border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnuKeBnFXDwNbh6obuMMhgicPgMBO3y7_jevhDmB2V5bOS-97RblK1R_nFEmWzSKYn_SIAxocXXHmca1w3EA-Lo16IlyPDTMg48o5MX-gamiTLR3gngMwcjtaWuNFsCvro0hUiJzOQNCPCiCREqPstD5cZ4zOeKmxhScaTc79_bbtx53iGIOPqM49AaGbq-77kNMD0hPyBwS-RjERwqIJX7kf68AJsKrC07qowbMNONrAKFWm7aNcr2ZvZDIqqXRGM2CJrVzO6bpU"/>
+<h2 class="text-headline-sm font-headline-md font-bold text-on-surface">MATCH CONTROL</h2>
+</div>
+<p class="text-label-caps font-label-caps text-on-surface-variant">Series A • Game 42</p>
+</div>
+<div class="flex-1 flex flex-col gap-unit px-2">
+<!-- Active Tab -->
+<button class="flex items-center gap-stack-md w-full px-4 py-3 bg-secondary-container text-on-secondary-container font-bold rounded-lg mx-2 opacity-80 scale-[0.98] transition-transform duration-100">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">scoreboard</span>
+<span class="text-label-caps font-label-caps uppercase">Scoring</span>
+</button>
+<!-- Inactive Tabs -->
+<button class="flex items-center gap-stack-md w-full px-4 py-3 text-on-surface-variant hover:text-on-surface mx-2 hover:bg-surface-container-highest transition-all rounded-lg text-left">
+<span class="material-symbols-outlined">router</span>
+<span class="text-label-caps font-label-caps uppercase">Streaming</span>
+</button>
+<button class="flex items-center gap-stack-md w-full px-4 py-3 text-on-surface-variant hover:text-on-surface mx-2 hover:bg-surface-container-highest transition-all rounded-lg text-left">
+<span class="material-symbols-outlined">monitor</span>
+<span class="text-label-caps font-label-caps uppercase">Graphics</span>
+</button>
+<button class="flex items-center gap-stack-md w-full px-4 py-3 text-on-surface-variant hover:text-on-surface mx-2 hover:bg-surface-container-highest transition-all rounded-lg text-left">
+<span class="material-symbols-outlined">groups</span>
+<span class="text-label-caps font-label-caps uppercase">Teams</span>
+</button>
+<button class="flex items-center gap-stack-md w-full px-4 py-3 text-on-surface-variant hover:text-on-surface mx-2 hover:bg-surface-container-highest transition-all rounded-lg text-left">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-label-caps font-label-caps uppercase">Stats</span>
+</button>
+</div>
+<div class="mt-auto flex flex-col gap-unit px-2 mb-margin">
+<button class="flex items-center gap-stack-md w-full px-4 py-3 text-on-surface-variant hover:text-on-surface mx-2 hover:bg-surface-container-highest transition-all rounded-lg text-left">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-label-caps font-label-caps uppercase">Settings</span>
+</button>
+<button class="flex items-center gap-stack-md w-full px-4 py-3 text-on-surface-variant hover:text-on-surface mx-2 hover:bg-surface-container-highest transition-all rounded-lg text-left">
+<span class="material-symbols-outlined">help</span>
+<span class="text-label-caps font-label-caps uppercase">Support</span>
+</button>
+</div>
+<div class="px-margin">
+<button class="w-full bg-error-container text-on-error-container hover:bg-error hover:text-on-error transition-colors py-3 rounded-lg text-label-caps font-label-caps font-bold tracking-wider">
+                    END MATCH
+                </button>
+</div>
+</nav>
+<!-- Main Canvas -->
+<main class="flex-1 lg:ml-64 p-margin grid grid-cols-1 md:grid-cols-12 gap-gutter items-start align-top">
+<!-- Left Column: Core Scoring -->
+<div class="md:col-span-8 flex flex-col gap-gutter">
+<!-- Score Bug Widget -->
+<div class="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm flex flex-col">
+<div class="bg-surface-container px-margin py-2 border-b border-outline-variant flex justify-between items-center">
+<span class="text-label-caps font-label-caps text-on-surface-variant tracking-wider uppercase">Match Status • 1st Innings</span>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed-dim"></span>
+<span class="text-label-caps font-label-caps text-on-surface">CRR: 7.60</span>
+</div>
+</div>
+<div class="p-margin flex items-end justify-between bg-gradient-to-br from-surface to-surface-container-lowest">
+<div>
+<div class="flex items-center gap-stack-md mb-2">
+<div class="w-8 h-6 bg-surface-bright rounded-DEFAULT flex items-center justify-center border border-outline-variant text-label-caps font-label-caps">IND</div>
+<span class="text-headline-md font-headline-md text-on-surface-variant">vs</span>
+<div class="w-8 h-6 bg-surface-bright rounded-DEFAULT flex items-center justify-center border border-outline-variant text-label-caps font-label-caps opacity-50">AUS</div>
+</div>
+<div class="flex items-baseline gap-stack-sm">
+<h1 class="text-display-score font-display-score text-secondary-container">142<span class="text-headline-lg font-headline-lg text-on-surface">/3</span></h1>
+</div>
+</div>
+<div class="text-right">
+<div class="text-headline-lg font-headline-lg text-on-surface">Overs: <span class="text-secondary-fixed">18.4</span></div>
+<div class="text-body-sm font-body-sm text-on-surface-variant mt-1">P'ship: 45 (28)</div>
+</div>
+</div>
+</div>
+<!-- Ball-by-Ball Scoring Pad -->
+<div class="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+<div class="bg-surface-container px-margin py-2 border-b border-outline-variant">
+<span class="text-label-caps font-label-caps text-on-surface-variant tracking-wider uppercase">Event Entry</span>
+</div>
+<div class="p-stack-md grid grid-cols-4 gap-unit">
+<!-- Runs -->
+<button class="bg-surface-container-high border border-outline-variant hover:border-tertiary-fixed hover:bg-surface-variant transition-colors h-16 rounded-lg text-headline-md font-headline-md text-on-surface flex items-center justify-center">0</button>
+<button class="bg-surface-container-high border border-outline-variant hover:border-tertiary-fixed hover:bg-surface-variant transition-colors h-16 rounded-lg text-headline-md font-headline-md text-on-surface flex items-center justify-center">1</button>
+<button class="bg-surface-container-high border border-outline-variant hover:border-tertiary-fixed hover:bg-surface-variant transition-colors h-16 rounded-lg text-headline-md font-headline-md text-on-surface flex items-center justify-center">2</button>
+<button class="bg-surface-container-high border border-outline-variant hover:border-tertiary-fixed hover:bg-surface-variant transition-colors h-16 rounded-lg text-headline-md font-headline-md text-on-surface flex items-center justify-center">3</button>
+<button class="bg-surface-bright border border-tertiary-fixed hover:bg-tertiary-fixed hover:text-on-tertiary-fixed transition-colors h-16 rounded-lg text-headline-md font-headline-md text-tertiary-fixed flex items-center justify-center">4</button>
+<button class="bg-surface-bright border border-secondary-fixed hover:bg-secondary-fixed hover:text-on-secondary-fixed transition-colors h-16 rounded-lg text-headline-md font-headline-md text-secondary-fixed flex items-center justify-center">6</button>
+<!-- Extras -->
+<button class="bg-surface-container border border-outline-variant hover:border-on-surface transition-colors h-16 rounded-lg text-data-tabular font-data-tabular text-on-surface flex items-center justify-center">Wd</button>
+<button class="bg-surface-container border border-outline-variant hover:border-on-surface transition-colors h-16 rounded-lg text-data-tabular font-data-tabular text-on-surface flex items-center justify-center">NB</button>
+<button class="bg-surface-container border border-outline-variant hover:border-on-surface transition-colors h-16 rounded-lg text-data-tabular font-data-tabular text-on-surface flex items-center justify-center">B</button>
+<button class="bg-surface-container border border-outline-variant hover:border-on-surface transition-colors h-16 rounded-lg text-data-tabular font-data-tabular text-on-surface flex items-center justify-center">LB</button>
+<!-- Actions -->
+<button class="bg-error-container border border-error hover:bg-error hover:text-on-error transition-colors h-16 rounded-lg text-headline-md font-headline-md text-on-error-container flex items-center justify-center col-span-2">WICKET</button>
+</div>
+</div>
+<!-- Recent Balls Ticker -->
+<div class="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm flex items-center p-3 gap-stack-md">
+<span class="text-label-caps font-label-caps text-on-surface-variant tracking-wider uppercase whitespace-nowrap">This Over</span>
+<div class="flex-1 flex gap-2 overflow-x-auto no-scrollbar items-center">
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant flex items-center justify-center text-data-tabular font-data-tabular text-on-surface">1</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant flex items-center justify-center text-data-tabular font-data-tabular text-on-surface">0</div>
+<div class="w-8 h-8 rounded-full bg-surface-bright border border-tertiary-fixed flex items-center justify-center text-data-tabular font-data-tabular text-tertiary-fixed">4</div>
+<div class="w-8 h-8 rounded-full bg-error-container border border-error flex items-center justify-center text-data-tabular font-data-tabular text-on-error-container">W</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-tertiary border-dashed flex items-center justify-center text-data-tabular font-data-tabular text-on-surface animate-pulse">?</div>
+</div>
+<button class="text-label-caps font-label-caps text-tertiary-fixed hover:text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">undo</span> UNDO
+                    </button>
+</div>
+</div>
+<!-- Right Column: Context & Stats -->
+<div class="md:col-span-4 flex flex-col gap-gutter">
+<!-- Active Players -->
+<div class="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+<div class="bg-surface-container px-4 py-2 border-b border-outline-variant">
+<span class="text-label-caps font-label-caps text-on-surface-variant tracking-wider uppercase">In The Middle</span>
+</div>
+<div class="p-0">
+<!-- Batsmen -->
+<table class="w-full text-left border-b border-outline-variant">
+<thead class="bg-surface-container-lowest border-b border-outline-variant">
+<tr>
+<th class="px-4 py-2 text-label-caps font-label-caps text-on-surface-variant font-normal">Batsman</th>
+<th class="px-4 py-2 text-label-caps font-label-caps text-on-surface-variant font-normal text-right">R</th>
+<th class="px-4 py-2 text-label-caps font-label-caps text-on-surface-variant font-normal text-right">B</th>
+<th class="px-4 py-2 text-label-caps font-label-caps text-on-surface-variant font-normal text-right">SR</th>
+</tr>
+</thead>
+<tbody class="font-data-tabular text-data-tabular text-on-surface">
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<td class="px-4 py-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary-container text-[16px]">sports_cricket</span>
+                                        V. Kohli
+                                    </td>
+<td class="px-4 py-3 text-right text-secondary-fixed">64</td>
+<td class="px-4 py-3 text-right">42</td>
+<td class="px-4 py-3 text-right">152.3</td>
+</tr>
+<tr>
+<td class="px-4 py-3 pl-8 text-on-surface-variant">S. Yadav</td>
+<td class="px-4 py-3 text-right text-on-surface">22</td>
+<td class="px-4 py-3 text-right text-on-surface">14</td>
+<td class="px-4 py-3 text-right text-on-surface">157.1</td>
+</tr>
+</tbody>
+</table>
+<!-- Bowler -->
+<table class="w-full text-left">
+<thead class="bg-surface-container-lowest border-b border-outline-variant">
+<tr>
+<th class="px-4 py-2 text-label-caps font-label-caps text-on-surface-variant font-normal">Bowler</th>
+<th class="px-4 py-2 text-label-caps font-label-caps text-on-surface-variant font-normal text-right">O</th>
+<th class="px-4 py-2 text-label-caps font-label-caps text-on-surface-variant font-normal text-right">M</th>
+<th class="px-4 py-2 text-label-caps font-label-caps text-on-surface-variant font-normal text-right">R</th>
+<th class="px-4 py-2 text-label-caps font-label-caps text-on-surface-variant font-normal text-right">W</th>
+</tr>
+</thead>
+<tbody class="font-data-tabular text-data-tabular text-on-surface">
+<tr class="bg-surface-container-low">
+<td class="px-4 py-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary-fixed text-[16px]">sports_baseball</span>
+                                        P. Cummins
+                                    </td>
+<td class="px-4 py-3 text-right">3.4</td>
+<td class="px-4 py-3 text-right">0</td>
+<td class="px-4 py-3 text-right">32</td>
+<td class="px-4 py-3 text-right text-tertiary-fixed">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Wagon Wheel / Field Map -->
+<div class="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm flex flex-col h-[280px]">
+<div class="bg-surface-container px-4 py-2 border-b border-outline-variant flex justify-between items-center">
+<span class="text-label-caps font-label-caps text-on-surface-variant tracking-wider uppercase">Field Placement</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">open_in_full</span>
+</div>
+<div class="flex-1 relative bg-surface-container-lowest p-2">
+<!-- Placeholder for Map -->
+<img alt="Cricket field map" class="w-full h-full object-cover rounded-lg border border-outline-variant opacity-80" data-alt="A top-down, highly technical digital broadcast graphic of a cricket oval field placement. The aesthetic is strictly dark mode, utilizing deep navy and black backgrounds with subtle grid lines. Fielding positions are indicated by glowing, neon cyan and gold geometric markers that evoke a high-tech data analysis suite. The lighting is artificial and screen-based, creating a sleek, professional, mission-critical mood suitable for a live sports producer's dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0vbS1jeECEkT4tQAi4AV4vZV1Zbd17iRorwSuB2vMRvYxFLRL8W_cxNZRgVQUTOoMzQX3A_RUSahXc2_H8-fu-3T0hBgxrHgxi4_pGpqCSYemL2LBKvEWqXZUqr94ISRzt-DgKEgfaarq2qb_qeb7iAFWFcXwGEe4bqdi0yca0Y8KdAhTE8PJ1kum8J0tZPrtdoO9mySwVkax1mR3NwxkDDjjVxfgRruZrSKMPNtNt3ECz1927BJxZpF8TAcE_CatvH0V-IX1SmQ"/>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

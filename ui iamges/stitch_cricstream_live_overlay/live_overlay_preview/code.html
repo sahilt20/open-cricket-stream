@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pro Cricket Live - Broadcast Graphics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Lexend:wght@600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .animate-pulse-fast {
+            animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+        
+        /* Glossy overlay effect for broadcast graphics */
+        .glass-panel {
+            background: linear-gradient(135deg, rgba(20, 32, 46, 0.85) 0%, rgba(8, 20, 33, 0.95) 100%);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(142, 145, 150, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+        
+        .glass-panel-accent {
+            background: linear-gradient(135deg, rgba(255, 219, 60, 0.9) 0%, rgba(233, 196, 0, 0.95) 100%);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 4px 16px rgba(255, 219, 60, 0.2);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#544600",
+                        "surface-bright": "#2e3a49",
+                        "inverse-on-surface": "#253140",
+                        "on-surface": "#d7e3f7",
+                        "surface-container-low": "#101c2a",
+                        "tertiary-fixed-dim": "#00daf3",
+                        "on-primary": "#27313e",
+                        "on-tertiary-fixed": "#001f24",
+                        "surface-dim": "#081421",
+                        "secondary": "#fff9ef",
+                        "secondary-container": "#ffdb3c",
+                        "surface-variant": "#2a3644",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed": "#9cf0ff",
+                        "on-secondary-container": "#725f00",
+                        "on-tertiary-fixed-variant": "#004f58",
+                        "surface-container-lowest": "#030f1c",
+                        "tertiary-container": "#00181c",
+                        "on-tertiary": "#00363d",
+                        "outline": "#8e9196",
+                        "on-primary-fixed": "#121c29",
+                        "surface-container": "#14202e",
+                        "inverse-primary": "#545f6e",
+                        "error-container": "#93000a",
+                        "on-primary-fixed-variant": "#3d4855",
+                        "on-tertiary-container": "#008c9d",
+                        "outline-variant": "#44474c",
+                        "on-primary-container": "#75808f",
+                        "tertiary": "#00daf3",
+                        "surface-container-high": "#1f2b39",
+                        "surface-container-highest": "#2a3644",
+                        "on-surface-variant": "#c5c6cc",
+                        "background": "#081421",
+                        "on-secondary": "#3a3000",
+                        "on-secondary-fixed": "#221b00",
+                        "surface-tint": "#bcc7d8",
+                        "primary-fixed-dim": "#bcc7d8",
+                        "primary-container": "#0b1622",
+                        "primary": "#bcc7d8",
+                        "surface": "#081421",
+                        "primary-fixed": "#d8e3f5",
+                        "inverse-surface": "#d7e3f7",
+                        "error": "#ffb4ab",
+                        "secondary-fixed": "#ffe16d",
+                        "on-error": "#690005",
+                        "on-background": "#d7e3f7",
+                        "secondary-fixed-dim": "#e9c400"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "stack-sm": "8px",
+                        "margin": "24px",
+                        "stack-lg": "32px",
+                        "unit": "4px",
+                        "stack-md": "16px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["lexend"],
+                        "body-sm": ["inter"],
+                        "data-tabular": ["inter"],
+                        "headline-lg": ["lexend"],
+                        "body-lg": ["inter"],
+                        "display-score": ["lexend"],
+                        "label-caps": ["inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "data-tabular": ["15px", { "lineHeight": "1", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-score": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-lg flex h-screen overflow-hidden selection:bg-tertiary-fixed-dim selection:text-on-tertiary-fixed">
+<!-- Shared Component: SideNavBar -->
+<nav class="bg-surface-container dark:bg-surface-container border-r border-outline-variant hidden lg:flex flex-col h-full py-margin docked left-0 h-screen w-64 z-20 shrink-0">
+<!-- Header -->
+<div class="px-margin mb-stack-lg flex items-center gap-stack-sm">
+<div class="w-10 h-10 rounded bg-primary-container flex items-center justify-center text-primary border border-outline-variant">
+<span class="material-symbols-outlined">movie</span>
+</div>
+<div>
+<h2 class="text-headline-md font-headline-md font-bold text-on-surface leading-tight">MATCH CONTROL</h2>
+<p class="text-label-caps font-label-caps text-on-surface-variant">Series A • Game 42</p>
+</div>
+</div>
+<!-- Main Tabs -->
+<div class="flex flex-col gap-unit flex-1">
+<!-- Inactive -->
+<button class="flex items-center gap-stack-md py-3 px-4 text-on-surface-variant hover:text-on-surface mx-2 hover:bg-surface-container-highest transition-all rounded-lg group text-left">
+<span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform">scoreboard</span>
+<span class="text-label-caps font-label-caps tracking-wider mt-0.5">Scoring</span>
+</button>
+<!-- Inactive -->
+<button class="flex items-center gap-stack-md py-3 px-4 text-on-surface-variant hover:text-on-surface mx-2 hover:bg-surface-container-highest transition-all rounded-lg group text-left">
+<span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform">router</span>
+<span class="text-label-caps font-label-caps tracking-wider mt-0.5">Streaming</span>
+</button>
+<!-- ACTIVE TAB (Graphics) -->
+<button class="flex items-center gap-stack-md py-3 px-4 bg-secondary-container text-on-secondary-container font-bold rounded-lg mx-2 opacity-80 scale-[0.98] transition-all text-left shadow-sm">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">monitor</span>
+<span class="text-label-caps font-label-caps tracking-wider mt-0.5">Graphics</span>
+</button>
+<!-- Inactive -->
+<button class="flex items-center gap-stack-md py-3 px-4 text-on-surface-variant hover:text-on-surface mx-2 hover:bg-surface-container-highest transition-all rounded-lg group text-left">
+<span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform">groups</span>
+<span class="text-label-caps font-label-caps tracking-wider mt-0.5">Teams</span>
+</button>
+<!-- Inactive -->
+<button class="flex items-center gap-stack-md py-3 px-4 text-on-surface-variant hover:text-on-surface mx-2 hover:bg-surface-container-highest transition-all rounded-lg group text-left">
+<span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform">analytics</span>
+<span class="text-label-caps font-label-caps tracking-wider mt-0.5">Stats</span>
+</button>
+</div>
+<!-- Footer Actions -->
+<div class="mt-auto px-margin pt-stack-md flex flex-col gap-unit">
+<button class="flex items-center gap-stack-md py-2 px-4 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all rounded-lg group text-left -mx-2">
+<span class="material-symbols-outlined text-lg">settings</span>
+<span class="text-label-caps font-label-caps mt-0.5">Settings</span>
+</button>
+<button class="flex items-center gap-stack-md py-2 px-4 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all rounded-lg group text-left -mx-2 mb-stack-md">
+<span class="material-symbols-outlined text-lg">help</span>
+<span class="text-label-caps font-label-caps mt-0.5">Support</span>
+</button>
+<button class="w-full py-3 bg-error-container text-on-error-container text-label-caps font-label-caps rounded-lg hover:brightness-110 transition-all font-bold border border-error/20">
+                END MATCH
+            </button>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0 relative bg-surface-dim">
+<!-- Shared Component: TopAppBar -->
+<header class="bg-surface dark:bg-surface text-primary dark:text-primary docked full-width top-0 z-50 border-b border-outline-variant dark:border-outline-variant flat no shadows flex justify-between items-center w-full px-gutter h-16 shrink-0">
+<!-- Brand -->
+<div class="flex items-center gap-stack-md">
+<h1 class="text-headline-lg font-headline-lg font-black text-secondary-container dark:text-secondary-fixed tracking-tight">PRO CRICKET LIVE</h1>
+<div class="h-6 w-px bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-2 px-3 py-1 bg-surface-container-highest rounded border border-outline-variant/50">
+<div class="w-2 h-2 rounded-full bg-error animate-pulse-fast"></div>
+<span class="text-data-tabular font-data-tabular text-on-surface text-sm">LIVE • 142/3 (18.4)</span>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-stack-sm">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">sensors</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">videocam</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-full flex items-center justify-center ml-2 border border-outline-variant">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- BROADCAST PREVIEW CANVAS -->
+<div class="flex-1 p-gutter lg:p-margin flex items-center justify-center overflow-hidden">
+<!-- The 16:9 Broadcast Frame -->
+<div class="relative w-full max-w-container-max aspect-video bg-black rounded-xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-outline-variant flex shrink-0">
+<!-- Simulated Live Video Feed (Background) -->
+<img alt="Background video feed" class="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-luminosity" data-alt="A wide, dynamic broadcast camera shot of a sprawling cricket stadium packed with fans under brilliant floodlights at night. The lush green grass of the outfield is sharply contrasted against the dark night sky. The scene is illuminated with high-contrast, dramatic sports lighting, creating a professional, high-stakes atmosphere reminiscent of a live television broadcast. The overall color palette features deep emerald greens, stark blacks, and bright, glaring stadium lights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaC40V5YyyHhVyT2DFRTPR89vujFjbwXlUlX9AuT_Y9FbWiH4wMHRJiqPCYx9xmod7wW4EfZB3FIsaJAJa-0m66H3mJh-pTcBOj8k_y7YAIVYh2is_k_BAiqMLp_eDf9wX7prpHnLoS708PsDowcHydPyabvRZUnXaiZEUHzBzz1OAX4eoX9o9pwLADAkx91JKKzsgLb-cIe_VAXJVY5WoRkWFEmZ4N85vZ6lKpyO1KZadbWwzqwBM7K-rC327-otcKJXBMxDkRis"/>
+<!-- Vignette for better graphic legibility -->
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none"></div>
+<!-- BROADCAST OVERLAYS START -->
+<!-- 1. Worm Graph (Top Left - Floating Panel) -->
+<div class="absolute top-8 left-8 w-80 glass-panel rounded-lg overflow-hidden flex flex-col">
+<div class="bg-surface-container-highest px-4 py-2 border-b border-outline/20 flex justify-between items-center">
+<span class="text-label-caps font-label-caps text-on-surface tracking-widest">RUN RATE COMPARISON</span>
+<span class="material-symbols-outlined text-sm text-tertiary">trending_up</span>
+</div>
+<div class="p-4 h-40 relative">
+<!-- Simulated Chart Grid -->
+<div class="absolute inset-0 p-4 flex flex-col justify-between opacity-20 pointer-events-none">
+<div class="w-full h-px bg-on-surface"></div>
+<div class="w-full h-px bg-on-surface"></div>
+<div class="w-full h-px bg-on-surface"></div>
+<div class="w-full h-px bg-on-surface"></div>
+</div>
+<!-- Simulated Worm Lines (SVG) -->
+<svg class="w-full h-full drop-shadow-md" preserveaspectratio="none" viewbox="0 0 100 100">
+<!-- Team 1 Line (Blue/Primary) -->
+<path class="text-primary opacity-50" d="M0,90 Q10,85 20,70 T40,50 T60,40 T80,30 T100,10" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="3"></path>
+<!-- Team 2 Line (Yellow/Secondary Container - The Chasing Team) -->
+<path class="text-secondary-container drop-shadow-[0_0_8px_rgba(255,219,60,0.8)]" d="M0,90 Q15,80 25,75 T45,55 T65,30 T85,25" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="4"></path>
+<!-- Current data point dot -->
+<circle class="text-secondary-container" cx="85" cy="25" fill="currentColor" r="4"></circle>
+</svg>
+<!-- Chart Legend -->
+<div class="absolute bottom-2 left-4 right-4 flex justify-between text-[10px] font-label-caps text-on-surface-variant font-bold">
+<div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-primary opacity-50"></div> IND (212)</div>
+<div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-secondary-container shadow-[0_0_5px_rgba(255,219,60,0.8)]"></div> AUS (142/3)</div>
+</div>
+</div>
+</div>
+<!-- 2. Batsman Comparison (Center Right - Floating Panel) -->
+<div class="absolute top-1/2 right-8 -translate-y-1/2 w-96 glass-panel rounded-lg overflow-hidden flex flex-col shadow-2xl">
+<div class="bg-gradient-to-r from-surface-container-high to-surface-container px-4 py-3 border-b border-outline/20 flex items-center justify-between">
+<span class="text-label-caps font-label-caps text-tertiary-fixed tracking-widest">AT THE CREASE</span>
+<div class="flex gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse-fast"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-outline/50"></span>
+</div>
+</div>
+<div class="flex">
+<!-- Striker -->
+<div class="flex-1 p-4 border-r border-outline/20 relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-tr from-tertiary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="text-label-caps font-label-caps text-on-surface-variant mb-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">sports_cricket</span> STRIKER
+                            </div>
+<h3 class="text-headline-md font-headline-md text-on-surface uppercase mb-3">S. Smith</h3>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<span class="text-body-sm text-on-surface-variant">Runs</span>
+<span class="text-headline-lg font-data-tabular text-on-surface leading-none">64</span>
+</div>
+<div class="flex justify-between items-end">
+<span class="text-body-sm text-on-surface-variant">Balls</span>
+<span class="text-data-tabular font-data-tabular text-on-surface">42</span>
+</div>
+<div class="flex justify-between items-end">
+<span class="text-body-sm text-on-surface-variant">SR</span>
+<span class="text-data-tabular font-data-tabular text-tertiary">152.3</span>
+</div>
+<!-- Micro Chart -->
+<div class="mt-2 w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[75%] rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Non-Striker -->
+<div class="flex-1 p-4 relative">
+<div class="text-label-caps font-label-caps text-on-surface-variant mb-1 opacity-70">NON-STRIKER</div>
+<h3 class="text-headline-md font-headline-md text-on-surface uppercase mb-3 opacity-90">M. Labuschagne</h3>
+<div class="flex flex-col gap-2 opacity-80">
+<div class="flex justify-between items-end">
+<span class="text-body-sm text-on-surface-variant">Runs</span>
+<span class="text-headline-lg font-data-tabular text-on-surface leading-none">28</span>
+</div>
+<div class="flex justify-between items-end">
+<span class="text-body-sm text-on-surface-variant">Balls</span>
+<span class="text-data-tabular font-data-tabular text-on-surface">18</span>
+</div>
+<div class="flex justify-between items-end">
+<span class="text-body-sm text-on-surface-variant">SR</span>
+<span class="text-data-tabular font-data-tabular text-primary">155.5</span>
+</div>
+<!-- Micro Chart -->
+<div class="mt-2 w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[80%] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 3. Lower Third Score Bug (Bottom Center) -->
+<div class="absolute bottom-8 left-1/2 -translate-x-1/2 w-[85%] max-w-5xl flex flex-col drop-shadow-[0_10px_20px_rgba(0,0,0,0.6)]">
+<!-- Context Bar (Top thin bar) -->
+<div class="flex bg-surface-container-lowest/90 backdrop-blur-md rounded-t-lg overflow-hidden border-t border-l border-r border-outline/30 w-fit">
+<div class="px-4 py-1.5 bg-error/90 text-on-error font-label-caps text-label-caps flex items-center gap-2 border-r border-outline/20">
+<span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse-fast"></span>
+                            LIVE
+                        </div>
+<div class="px-4 py-1.5 text-on-surface font-label-caps text-label-caps border-r border-outline/20 flex items-center">
+                            ICC MEN'S T20 WORLD CUP
+                        </div>
+<div class="px-4 py-1.5 text-tertiary font-label-caps text-label-caps flex items-center tracking-widest">
+                            TARGET 213
+                        </div>
+</div>
+<!-- Main Score Row -->
+<div class="flex h-20 w-full glass-panel border-l border-r border-b rounded-tr-lg rounded-b-lg overflow-hidden">
+<!-- Team Indicator -->
+<div class="w-24 bg-surface-container-high flex flex-col justify-center items-center border-r border-outline/20 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-secondary-container"></div>
+<span class="text-headline-lg font-headline-lg text-on-surface font-black tracking-widest">AUS</span>
+</div>
+<!-- Huge Score Block -->
+<div class="glass-panel-accent px-8 flex items-center justify-center border-r border-outline/20 min-w-[200px] relative overflow-hidden">
+<!-- High gloss overlay highlight -->
+<div class="absolute top-0 left-0 w-full h-1/2 bg-white/10"></div>
+<div class="flex items-baseline gap-1 relative z-10">
+<span class="text-display-score font-display-score text-on-secondary-container">142</span>
+<span class="text-headline-lg font-headline-lg text-on-secondary-container/80 pb-2">/3</span>
+</div>
+</div>
+<!-- Overs & Rates -->
+<div class="px-6 flex flex-col justify-center border-r border-outline/20 bg-surface/50 min-w-[140px]">
+<div class="flex justify-between items-baseline mb-1">
+<span class="text-label-caps font-label-caps text-on-surface-variant">OVERS</span>
+<span class="text-headline-md font-data-tabular text-on-surface">18.4</span>
+</div>
+<div class="w-full h-px bg-outline/20 mb-1"></div>
+<div class="flex justify-between items-baseline">
+<span class="text-[10px] font-label-caps text-tertiary">CRR: 7.6</span>
+<span class="text-[10px] font-label-caps text-error">RRR: 12.5</span>
+</div>
+</div>
+<!-- Current Batsmen (Mini version inside scorebug) -->
+<div class="flex-1 flex flex-col justify-center px-6 border-r border-outline/20 bg-surface/30">
+<div class="flex justify-between items-center mb-1.5">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-secondary-container">sports_cricket</span>
+<span class="font-data-tabular text-data-tabular text-on-surface uppercase">S. Smith</span>
+</div>
+<span class="font-data-tabular text-data-tabular text-on-surface">64 <span class="text-body-sm text-on-surface-variant font-normal">(42)</span></span>
+</div>
+<div class="flex justify-between items-center opacity-60">
+<div class="flex items-center gap-2 pl-5">
+<span class="font-data-tabular text-[13px] text-on-surface uppercase">M. Labuschagne</span>
+</div>
+<span class="font-data-tabular text-[13px] text-on-surface">28 <span class="text-[11px] text-on-surface-variant font-normal">(18)</span></span>
+</div>
+</div>
+<!-- Current Bowler -->
+<div class="flex-1 flex flex-col justify-center px-6 bg-surface-container-low/80 relative">
+<div class="absolute top-0 right-0 p-1 bg-surface-container text-[9px] font-label-caps text-on-surface-variant border-b border-l border-outline/20 rounded-bl">BOWLING</div>
+<div class="flex justify-between items-end mt-2">
+<div>
+<div class="font-data-tabular text-data-tabular text-on-surface uppercase tracking-wide">J. Bumrah</div>
+<div class="text-[11px] font-label-caps text-on-surface-variant mt-0.5">OVERS: 3.4</div>
+</div>
+<div class="text-right">
+<div class="text-headline-md font-data-tabular text-on-surface leading-none">2-18</div>
+<div class="text-[11px] font-label-caps text-tertiary mt-1">ECON: 4.9</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END BROADCAST OVERLAYS -->
+</div>
+</div>
+</main>
+</body></html>

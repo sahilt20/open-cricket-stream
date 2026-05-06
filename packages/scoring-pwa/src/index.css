@@ -3,9 +3,40 @@
 @tailwind utilities;
 
 @layer base {
-  html, body, #root { height: 100%; }
-  body { -webkit-tap-highlight-color: transparent; }
+  html, body, #root {
+    height: 100%;
+    background-color: #070e0a;
+    overscroll-behavior: none;
+  }
 
-  /* Score-tap buttons need to be properly tappable on a phone — never less than 44pt. */
-  .tap-target { min-height: 56px; min-width: 56px; }
+  body {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.10); border-radius: 2px; }
+
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.35)' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+  }
+}
+
+@layer utilities {
+  /* Thumb-safe tap target */
+  .tap-target { min-height: 60px; min-width: 44px; }
+  .tap-xl     { min-height: 72px; }
+
+  /* iOS safe area */
+  .pb-safe { padding-bottom: max(env(safe-area-inset-bottom, 0px), 16px); }
+  .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+  .mb-safe { margin-bottom: env(safe-area-inset-bottom, 0px); }
+
+  /* Full-height that accounts for mobile browser chrome */
+  .h-dvh  { height: 100dvh; height: 100vh; }
+  .min-h-dvh { min-height: 100dvh; min-height: 100vh; }
 }

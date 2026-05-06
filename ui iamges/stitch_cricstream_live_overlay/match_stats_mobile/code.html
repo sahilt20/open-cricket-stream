@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fan Stats Page</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Lexend:wght@600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#1f2b39",
+                        "primary-fixed": "#d8e3f5",
+                        "on-background": "#d7e3f7",
+                        "on-surface": "#d7e3f7",
+                        "on-primary-container": "#75808f",
+                        "background": "#081421",
+                        "surface-container-low": "#101c2a",
+                        "secondary-fixed": "#ffe16d",
+                        "outline-variant": "#44474c",
+                        "on-primary-fixed-variant": "#3d4855",
+                        "secondary-fixed-dim": "#e9c400",
+                        "on-tertiary-fixed-variant": "#004f58",
+                        "on-secondary-container": "#725f00",
+                        "on-secondary-fixed-variant": "#544600",
+                        "on-primary-fixed": "#121c29",
+                        "tertiary-container": "#00181c",
+                        "error-container": "#93000a",
+                        "surface-container": "#14202e",
+                        "on-tertiary-fixed": "#001f24",
+                        "tertiary": "#00daf3",
+                        "surface": "#081421",
+                        "surface-container-highest": "#2a3644",
+                        "secondary": "#fff9ef",
+                        "tertiary-fixed-dim": "#00daf3",
+                        "surface-variant": "#2a3644",
+                        "secondary-container": "#ffdb3c",
+                        "surface-bright": "#2e3a49",
+                        "on-surface-variant": "#c5c6cc",
+                        "surface-tint": "#bcc7d8",
+                        "on-tertiary-container": "#008c9d",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-lowest": "#030f1c",
+                        "outline": "#8e9196",
+                        "tertiary-fixed": "#9cf0ff",
+                        "primary-container": "#0b1622",
+                        "on-tertiary": "#00363d",
+                        "inverse-surface": "#d7e3f7",
+                        "on-error": "#690005",
+                        "on-secondary-fixed": "#221b00",
+                        "on-primary": "#27313e",
+                        "primary-fixed-dim": "#bcc7d8",
+                        "surface-dim": "#081421",
+                        "inverse-primary": "#545f6e",
+                        "on-secondary": "#3a3000",
+                        "inverse-on-surface": "#253140",
+                        "error": "#ffb4ab",
+                        "primary": "#bcc7d8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "margin": "24px",
+                        "gutter": "16px",
+                        "unit": "4px",
+                        "stack-md": "16px",
+                        "stack-lg": "32px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Lexend", "sans-serif"],
+                        "label-caps": ["Inter", "sans-serif"],
+                        "body-sm": ["Inter", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "headline-lg": ["Lexend", "sans-serif"],
+                        "display-score": ["Lexend", "sans-serif"],
+                        "data-tabular": ["Inter", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-score": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-tabular": ["15px", { "lineHeight": "1", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-sm min-h-screen flex flex-col md:hidden">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface docked full-width top-0 z-50 border-b border-outline-variant dark:border-outline-variant flat no shadows">
+<div class="flex justify-between items-center w-full px-gutter h-16">
+<div class="text-headline-lg font-headline-lg font-black text-secondary-container dark:text-secondary-fixed">
+                PRO CRICKET LIVE
+            </div>
+<div class="flex items-center gap-4">
+<div class="text-primary dark:text-primary text-label-caps font-label-caps">
+                    LIVE • 142/3 (18.4)
+                </div>
+<div class="flex items-center gap-3 text-primary dark:text-primary hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="sensors">sensors</span>
+<span class="material-symbols-outlined" data-icon="videocam">videocam</span>
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-grow flex flex-col pb-24">
+<!-- Score Hero -->
+<section class="bg-surface-container py-stack-md px-gutter border-b border-outline-variant">
+<div class="flex justify-between items-end mb-stack-sm">
+<div>
+<h1 class="text-label-caps font-label-caps text-on-surface-variant mb-unit">MUMBAI VS DELHI</h1>
+<div class="text-display-score font-display-score text-on-surface">
+                        142<span class="text-headline-lg font-headline-lg text-on-surface-variant">/3</span>
+</div>
+</div>
+<div class="text-right">
+<div class="text-label-caps font-label-caps text-on-surface-variant mb-unit">OVERS</div>
+<div class="text-headline-lg font-headline-lg text-primary">18.4</div>
+</div>
+</div>
+<div class="flex justify-between items-center bg-surface-container-high rounded p-stack-sm border border-outline-variant">
+<div>
+<div class="text-label-caps font-label-caps text-on-surface-variant">CRR</div>
+<div class="text-data-tabular font-data-tabular text-on-surface mt-unit">7.62</div>
+</div>
+<div class="h-8 w-px bg-outline-variant"></div>
+<div>
+<div class="text-label-caps font-label-caps text-on-surface-variant">TARGET</div>
+<div class="text-data-tabular font-data-tabular text-on-surface mt-unit">185</div>
+</div>
+<div class="h-8 w-px bg-outline-variant"></div>
+<div>
+<div class="text-label-caps font-label-caps text-on-surface-variant">REQ RR</div>
+<div class="text-data-tabular font-data-tabular text-on-surface mt-unit">32.25</div>
+</div>
+</div>
+</section>
+<!-- Tabs -->
+<div class="bg-surface border-b border-outline-variant sticky top-16 z-40">
+<div class="flex justify-around px-gutter pt-stack-sm">
+<button class="pb-stack-sm text-secondary-container font-bold border-b-2 border-secondary-container text-label-caps font-label-caps w-1/3 text-center">SCORECARD</button>
+<button class="pb-stack-sm text-on-surface-variant text-label-caps font-label-caps w-1/3 text-center">PLAY-BY-PLAY</button>
+<button class="pb-stack-sm text-on-surface-variant text-label-caps font-label-caps w-1/3 text-center">INSIGHTS</button>
+</div>
+</div>
+<!-- Tab Content: Scorecard -->
+<section class="flex-grow bg-background px-gutter py-stack-md">
+<!-- Batting Table -->
+<div class="bg-surface-container rounded-lg border border-outline-variant mb-stack-lg overflow-hidden">
+<div class="bg-surface-container-high px-stack-md py-stack-sm border-b border-outline-variant flex justify-between items-center">
+<h2 class="text-label-caps font-label-caps text-on-surface">BATTERS</h2>
+</div>
+<div class="p-stack-sm">
+<div class="grid grid-cols-12 gap-unit mb-stack-sm text-label-caps font-label-caps text-on-surface-variant pb-unit border-b border-outline-variant">
+<div class="col-span-5">BATSMAN</div>
+<div class="col-span-2 text-right">R</div>
+<div class="col-span-2 text-right">B</div>
+<div class="col-span-3 text-right">SR</div>
+</div>
+<div class="grid grid-cols-12 gap-unit mb-stack-sm text-data-tabular font-data-tabular text-on-surface items-center">
+<div class="col-span-5 flex items-center gap-2">
+<span>S. Sharma</span>
+<span class="text-secondary-container text-xs">*</span>
+</div>
+<div class="col-span-2 text-right">64</div>
+<div class="col-span-2 text-right">42</div>
+<div class="col-span-3 text-right">152.4</div>
+</div>
+<div class="grid grid-cols-12 gap-unit text-data-tabular font-data-tabular text-on-surface items-center">
+<div class="col-span-5 flex items-center gap-2">
+<span>R. Singh</span>
+<span class="text-secondary-container text-xs">*</span>
+</div>
+<div class="col-span-2 text-right">28</div>
+<div class="col-span-2 text-right">18</div>
+<div class="col-span-3 text-right">155.5</div>
+</div>
+</div>
+</div>
+<!-- Bowling Table -->
+<div class="bg-surface-container rounded-lg border border-outline-variant overflow-hidden">
+<div class="bg-surface-container-high px-stack-md py-stack-sm border-b border-outline-variant flex justify-between items-center">
+<h2 class="text-label-caps font-label-caps text-on-surface">BOWLERS</h2>
+</div>
+<div class="p-stack-sm">
+<div class="grid grid-cols-12 gap-unit mb-stack-sm text-label-caps font-label-caps text-on-surface-variant pb-unit border-b border-outline-variant">
+<div class="col-span-5">BOWLER</div>
+<div class="col-span-2 text-right">O</div>
+<div class="col-span-2 text-right">R</div>
+<div class="col-span-3 text-right">W</div>
+</div>
+<div class="grid grid-cols-12 gap-unit mb-stack-sm text-data-tabular font-data-tabular text-on-surface items-center">
+<div class="col-span-5 flex items-center gap-2 text-primary">
+<span>A. Patel</span>
+</div>
+<div class="col-span-2 text-right">3.4</div>
+<div class="col-span-2 text-right">32</div>
+<div class="col-span-3 text-right text-secondary-container">2</div>
+</div>
+<div class="grid grid-cols-12 gap-unit text-data-tabular font-data-tabular text-on-surface items-center">
+<div class="col-span-5 flex items-center gap-2">
+<span>K. Yadav</span>
+</div>
+<div class="col-span-2 text-right">4.0</div>
+<div class="col-span-2 text-right">28</div>
+<div class="col-span-3 text-right">1</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Sticky Bottom Actions -->
+<div class="fixed bottom-0 left-0 w-full bg-surface-container-high border-t border-outline-variant p-stack-sm flex gap-stack-md z-50">
+<button class="flex-1 bg-secondary-container text-on-secondary-container rounded-lg py-stack-sm flex items-center justify-center gap-2 text-label-caps font-label-caps">
+<span class="material-symbols-outlined text-lg" data-icon="poll">poll</span>
+            FAN POLL
+        </button>
+<button class="flex-1 border border-outline text-on-surface rounded-lg py-stack-sm flex items-center justify-center gap-2 text-label-caps font-label-caps">
+<span class="material-symbols-outlined text-lg" data-icon="share">share</span>
+            SHARE
+        </button>
+</div>
+</body></html>

@@ -13,22 +13,22 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variants: Record<Variant, string> = {
   primary:
-    'bg-willow-gold text-willow-night hover:bg-amber-300 active:bg-amber-400 disabled:bg-willow-gold/40 disabled:text-willow-night/60 shadow-sm',
+    'bg-accent-gold text-pitch-bg hover:bg-amber-400 active:bg-amber-500 disabled:bg-accent-gold/40 disabled:text-pitch-bg/60 shadow-sm',
   secondary:
-    'bg-willow-green text-white hover:bg-willow-green/80 active:bg-willow-green/70 disabled:opacity-40 border border-white/10',
+    'bg-pitch-raised text-white hover:bg-pitch-muted/60 active:bg-pitch-muted/80 disabled:opacity-40 border border-pitch-border',
   ghost:
-    'bg-transparent text-white hover:bg-white/5 active:bg-white/10 disabled:opacity-40 border border-white/10',
+    'bg-transparent text-white hover:bg-pitch-raised active:bg-pitch-muted/40 disabled:opacity-40 border border-pitch-border',
   danger:
-    'bg-rose-600 text-white hover:bg-rose-500 active:bg-rose-700 disabled:opacity-40 shadow-sm',
+    'bg-danger text-white hover:bg-danger-dim active:bg-danger-dim disabled:opacity-40 shadow-sm',
   score:
-    'bg-willow-green/80 text-white text-2xl font-bold tabular-nums hover:bg-willow-green active:scale-95 disabled:opacity-40 shadow-md',
+    'bg-pitch-raised text-white border border-pitch-border hover:bg-pitch-muted/60 active:scale-95 disabled:opacity-40 shadow-md',
 };
 
 const sizes: Record<Size, string> = {
-  sm: 'h-8 px-3 text-sm rounded-md',
+  sm: 'h-8 px-3 text-sm rounded-lg',
   md: 'h-10 px-4 text-sm rounded-lg',
-  lg: 'h-12 px-5 text-base rounded-lg',
-  tap: 'min-h-[60px] px-4 rounded-lg', // tappable on a phone
+  lg: 'h-12 px-5 text-base rounded-xl',
+  tap: 'min-h-[60px] px-4 rounded-xl',
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
@@ -42,7 +42,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       disabled={disabled || loading}
       className={cn(
         'inline-flex items-center justify-center gap-2 font-semibold transition-all',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-willow-gold focus-visible:ring-offset-2 focus-visible:ring-offset-willow-night',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold focus-visible:ring-offset-2 focus-visible:ring-offset-pitch-bg',
         'disabled:cursor-not-allowed',
         variants[variant],
         sizes[size],

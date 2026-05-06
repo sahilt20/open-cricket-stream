@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pro Cricket Live - Fan View</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Lexend:wght@600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#544600",
+                        "surface-bright": "#2e3a49",
+                        "inverse-on-surface": "#253140",
+                        "on-surface": "#d7e3f7",
+                        "surface-container-low": "#101c2a",
+                        "tertiary-fixed-dim": "#00daf3",
+                        "on-primary": "#27313e",
+                        "on-tertiary-fixed": "#001f24",
+                        "surface-dim": "#081421",
+                        "secondary": "#fff9ef",
+                        "secondary-container": "#ffdb3c",
+                        "surface-variant": "#2a3644",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed": "#9cf0ff",
+                        "on-secondary-container": "#725f00",
+                        "on-tertiary-fixed-variant": "#004f58",
+                        "surface-container-lowest": "#030f1c",
+                        "tertiary-container": "#00181c",
+                        "on-tertiary": "#00363d",
+                        "outline": "#8e9196",
+                        "on-primary-fixed": "#121c29",
+                        "surface-container": "#14202e",
+                        "inverse-primary": "#545f6e",
+                        "error-container": "#93000a",
+                        "on-primary-fixed-variant": "#3d4855",
+                        "on-tertiary-container": "#008c9d",
+                        "outline-variant": "#44474c",
+                        "on-primary-container": "#75808f",
+                        "tertiary": "#00daf3",
+                        "surface-container-high": "#1f2b39",
+                        "surface-container-highest": "#2a3644",
+                        "on-surface-variant": "#c5c6cc",
+                        "background": "#081421",
+                        "on-secondary": "#3a3000",
+                        "on-secondary-fixed": "#221b00",
+                        "surface-tint": "#bcc7d8",
+                        "primary-fixed-dim": "#bcc7d8",
+                        "primary-container": "#0b1622",
+                        "primary": "#bcc7d8",
+                        "surface": "#081421",
+                        "primary-fixed": "#d8e3f5",
+                        "inverse-surface": "#d7e3f7",
+                        "error": "#ffb4ab",
+                        "secondary-fixed": "#ffe16d",
+                        "on-error": "#690005",
+                        "on-background": "#d7e3f7",
+                        "secondary-fixed-dim": "#e9c400"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "stack-sm": "8px",
+                        "margin": "24px",
+                        "stack-lg": "32px",
+                        "unit": "4px",
+                        "stack-md": "16px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Lexend", "sans-serif"],
+                        "body-sm": ["Inter", "sans-serif"],
+                        "data-tabular": ["Inter", "monospace"],
+                        "headline-lg": ["Lexend", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "display-score": ["Lexend", "sans-serif"],
+                        "label-caps": ["Inter", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "data-tabular": ["15px", { "lineHeight": "1", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-score": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Tabular nums for scores */
+        .tabular-nums {
+            font-variant-numeric: tabular-nums;
+        }
+        /* Custom scrollbar for commentary */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.1);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: var(--tw-colors-outline-variant);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-lg text-body-lg">
+<!-- TopAppBar from JSON -->
+<header class="bg-surface border-b border-outline-variant w-full px-gutter h-16 flex justify-between items-center sticky top-0 z-50">
+<div class="text-headline-lg font-headline-lg font-black text-secondary-fixed">
+            PRO CRICKET LIVE
+        </div>
+<div class="flex items-center gap-margin">
+<div class="hidden md:flex items-center gap-stack-sm bg-surface-container-high px-4 py-2 rounded-full border border-outline-variant">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed-dim animate-pulse"></span>
+<span class="text-label-caps font-label-caps text-on-surface tabular-nums tracking-widest">
+                    LIVE • 142/3 (18.4)
+                </span>
+</div>
+<div class="flex gap-stack-sm text-primary">
+<button class="hover:bg-surface-container-high transition-colors p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">sensors</span>
+</button>
+<button class="hover:bg-surface-container-high transition-colors p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">videocam</span>
+</button>
+<button class="hover:bg-surface-container-high transition-colors p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-container-max mx-auto px-gutter py-margin grid grid-cols-12 gap-margin">
+<!-- Broadcast Score Bug / Hero (Bento Style) -->
+<section class="col-span-12 grid grid-cols-1 md:grid-cols-12 gap-margin">
+<!-- Main Score Context -->
+<div class="md:col-span-8 bg-surface-container border border-outline-variant rounded-xl p-margin flex flex-col justify-between relative overflow-hidden">
+<!-- Subtle background graphic for broadcast feel -->
+<div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, #ffffff 10px, #ffffff 11px);"></div>
+<div class="flex justify-between items-start z-10">
+<span class="text-label-caps font-label-caps text-on-surface-variant bg-surface-container-highest px-2 py-1 rounded">MATCH 42 • FINAL</span>
+<span class="text-label-caps font-label-caps text-secondary-fixed bg-surface-container-low px-2 py-1 rounded border border-secondary-fixed/30 flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">stadium</span> MELBOURNE
+                    </span>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-end mt-stack-lg z-10">
+<div>
+<h2 class="text-headline-md font-headline-md text-on-surface-variant mb-unit">INDIA INNINGS</h2>
+<div class="flex items-baseline gap-stack-sm">
+<span class="text-display-score font-display-score text-on-surface tabular-nums">142<span class="text-headline-lg font-headline-lg text-on-surface-variant">/3</span></span>
+<span class="text-headline-md font-headline-md text-on-surface-variant tabular-nums">(18.4)</span>
+</div>
+</div>
+<div class="text-right mt-stack-md md:mt-0">
+<h2 class="text-headline-md font-headline-md text-on-surface-variant mb-unit">AUSTRALIA</h2>
+<div class="text-headline-lg font-headline-lg text-on-surface opacity-50 tabular-nums">Yet to bat</div>
+</div>
+</div>
+<div class="mt-stack-md pt-stack-sm border-t border-outline-variant/50 flex gap-margin text-body-sm font-body-sm text-on-surface-variant z-10">
+<span class="tabular-nums">CRR: <strong class="text-on-surface">7.65</strong></span>
+<span class="tabular-nums">PROJ: <strong class="text-on-surface">158</strong></span>
+</div>
+</div>
+<!-- Predictor / Context -->
+<div class="md:col-span-4 bg-surface-container border border-outline-variant rounded-xl p-margin flex flex-col justify-center">
+<div class="text-label-caps font-label-caps text-on-surface-variant mb-stack-md flex items-center justify-between">
+<span>WIN PREDICTOR</span>
+<span class="material-symbols-outlined text-[16px]">analytics</span>
+</div>
+<div class="flex items-center justify-between mb-unit text-data-tabular font-data-tabular">
+<span class="text-tertiary">IND 62%</span>
+<span class="text-secondary-fixed">AUS 38%</span>
+</div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden flex">
+<div class="bg-tertiary h-full" style="width: 62%;"></div>
+<div class="bg-secondary-fixed h-full" style="width: 38%;"></div>
+</div>
+<div class="mt-stack-lg p-stack-sm bg-surface rounded-lg border border-outline-variant/50 text-body-sm font-body-sm text-on-surface">
+<span class="material-symbols-outlined text-secondary-fixed text-[16px] inline-block align-text-bottom mr-1">info</span>
+                    India elected to bat first. Pitch shows early signs of spin.
+                </div>
+</div>
+</section>
+<!-- Left Column: Detailed Scorecard & Stats -->
+<div class="col-span-12 lg:col-span-8 flex flex-col gap-margin">
+<!-- Batting Scorecard -->
+<section class="bg-surface-container border border-outline-variant rounded-xl overflow-hidden">
+<div class="bg-surface-container-high px-margin py-stack-sm border-b border-outline-variant flex justify-between items-center">
+<h3 class="text-headline-md font-headline-md text-on-surface">Batters</h3>
+<div class="flex bg-surface rounded-lg p-1 border border-outline-variant">
+<button class="px-3 py-1 text-label-caps font-label-caps bg-secondary-container text-on-secondary-container rounded shadow-sm">IND</button>
+<button class="px-3 py-1 text-label-caps font-label-caps text-on-surface-variant hover:text-on-surface">AUS</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="text-label-caps font-label-caps text-on-surface-variant bg-surface-container-low border-b border-outline-variant/50">
+<th class="p-stack-md font-normal">BATTER</th>
+<th class="p-stack-md font-normal text-right">R</th>
+<th class="p-stack-md font-normal text-right">B</th>
+<th class="p-stack-md font-normal text-right">4s</th>
+<th class="p-stack-md font-normal text-right">6s</th>
+<th class="p-stack-md font-normal text-right">SR</th>
+</tr>
+</thead>
+<tbody class="text-data-tabular font-data-tabular text-on-surface tabular-nums">
+<tr class="border-b border-outline-variant/20 hover:bg-surface-container-highest transition-colors">
+<td class="p-stack-md">
+<div class="flex items-center gap-stack-sm">
+                                        V. Kohli <span class="text-secondary-fixed text-label-caps material-symbols-outlined text-[16px]">sports_cricket</span>
+</div>
+<div class="text-body-sm font-body-sm text-on-surface-variant font-normal">not out</div>
+</td>
+<td class="p-stack-md text-right font-bold">78</td>
+<td class="p-stack-md text-right text-on-surface-variant">52</td>
+<td class="p-stack-md text-right">6</td>
+<td class="p-stack-md text-right">3</td>
+<td class="p-stack-md text-right">150.00</td>
+</tr>
+<tr class="border-b border-outline-variant/20 hover:bg-surface-container-highest transition-colors">
+<td class="p-stack-md">
+<div>R. Sharma</div>
+<div class="text-body-sm font-body-sm text-on-surface-variant font-normal">c Smith b Starc</div>
+</td>
+<td class="p-stack-md text-right font-bold">42</td>
+<td class="p-stack-md text-right text-on-surface-variant">30</td>
+<td class="p-stack-md text-right">4</td>
+<td class="p-stack-md text-right">2</td>
+<td class="p-stack-md text-right">140.00</td>
+</tr>
+<tr class="hover:bg-surface-container-highest transition-colors">
+<td class="p-stack-md">
+<div class="flex items-center gap-stack-sm">
+                                        S. Yadav <span class="text-secondary-fixed text-label-caps material-symbols-outlined text-[16px]">sports_cricket</span>
+</div>
+<div class="text-body-sm font-body-sm text-on-surface-variant font-normal">not out</div>
+</td>
+<td class="p-stack-md text-right font-bold">12</td>
+<td class="p-stack-md text-right text-on-surface-variant">8</td>
+<td class="p-stack-md text-right">1</td>
+<td class="p-stack-md text-right">0</td>
+<td class="p-stack-md text-right">150.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Bowling Scorecard -->
+<section class="bg-surface-container border border-outline-variant rounded-xl overflow-hidden">
+<div class="bg-surface-container-high px-margin py-stack-sm border-b border-outline-variant">
+<h3 class="text-headline-md font-headline-md text-on-surface">Bowlers</h3>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="text-label-caps font-label-caps text-on-surface-variant bg-surface-container-low border-b border-outline-variant/50">
+<th class="p-stack-md font-normal">BOWLER</th>
+<th class="p-stack-md font-normal text-right">O</th>
+<th class="p-stack-md font-normal text-right">M</th>
+<th class="p-stack-md font-normal text-right">R</th>
+<th class="p-stack-md font-normal text-right">W</th>
+<th class="p-stack-md font-normal text-right">ECON</th>
+</tr>
+</thead>
+<tbody class="text-data-tabular font-data-tabular text-on-surface tabular-nums">
+<tr class="border-b border-outline-variant/20 hover:bg-surface-container-highest transition-colors">
+<td class="p-stack-md">
+<div class="flex items-center gap-stack-sm">
+                                        M. Starc <span class="text-secondary-fixed text-label-caps material-symbols-outlined text-[16px]">sports_baseball</span>
+</div>
+</td>
+<td class="p-stack-md text-right">3.4</td>
+<td class="p-stack-md text-right">0</td>
+<td class="p-stack-md text-right">32</td>
+<td class="p-stack-md text-right font-bold text-secondary-fixed">2</td>
+<td class="p-stack-md text-right">8.72</td>
+</tr>
+<tr class="hover:bg-surface-container-highest transition-colors">
+<td class="p-stack-md"><div>P. Cummins</div></td>
+<td class="p-stack-md text-right">4.0</td>
+<td class="p-stack-md text-right">0</td>
+<td class="p-stack-md text-right">28</td>
+<td class="p-stack-md text-right font-bold text-secondary-fixed">1</td>
+<td class="p-stack-md text-right">7.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+<!-- Right Column: Live Commentary & Social -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-margin">
+<!-- Commentary Module (Glassmorphism inspired container) -->
+<section class="bg-surface-container/80 backdrop-blur-md border border-outline-variant rounded-xl flex flex-col h-[500px]">
+<div class="px-margin py-stack-md border-b border-outline-variant flex justify-between items-center bg-surface-container">
+<h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-stack-sm">
+<span class="material-symbols-outlined text-secondary-fixed-dim animate-pulse">radio_button_checked</span>
+                        Play-by-Play
+                    </h3>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-margin flex flex-col gap-margin">
+<!-- Over Summary Marker -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded p-stack-sm text-center">
+<span class="text-label-caps font-label-caps text-on-surface-variant">END OF OVER 18 • 8 RUNS</span>
+</div>
+<!-- Commentary Items -->
+<div class="flex gap-stack-md">
+<div class="w-12 text-right shrink-0 pt-1">
+<span class="text-data-tabular font-data-tabular text-on-surface-variant tabular-nums">18.4</span>
+</div>
+<div class="flex-1">
+<div class="inline-block px-2 py-0.5 rounded bg-surface border border-outline-variant text-label-caps font-label-caps text-on-surface mb-1">1 RUN</div>
+<p class="text-body-sm font-body-sm text-on-surface">Starc to Yadav, 1 run. Full toss on the pads, clipped away to deep square leg for a single. They rotate the strike.</p>
+</div>
+</div>
+<div class="flex gap-stack-md">
+<div class="w-12 text-right shrink-0 pt-1">
+<span class="text-data-tabular font-data-tabular text-on-surface-variant tabular-nums">18.3</span>
+</div>
+<div class="flex-1">
+<div class="inline-block px-2 py-0.5 rounded bg-tertiary-container text-tertiary border border-tertiary/30 text-label-caps font-label-caps mb-1">FOUR</div>
+<p class="text-body-sm font-body-sm text-on-surface">Starc to Yadav, <strong>FOUR!</strong> Shot. Length ball outside off, Yadav opens the face and slices it perfectly over backward point.</p>
+</div>
+</div>
+<div class="flex gap-stack-md">
+<div class="w-12 text-right shrink-0 pt-1">
+<span class="text-data-tabular font-data-tabular text-on-surface-variant tabular-nums">18.2</span>
+</div>
+<div class="flex-1">
+<div class="inline-block px-2 py-0.5 rounded bg-surface border border-outline-variant text-label-caps font-label-caps text-on-surface mb-1">DOT</div>
+<p class="text-body-sm font-body-sm text-on-surface">Starc to Yadav, no run. Yorker length, dug out solidly back to the bowler.</p>
+</div>
+</div>
+<div class="flex gap-stack-md">
+<div class="w-12 text-right shrink-0 pt-1">
+<span class="text-data-tabular font-data-tabular text-on-surface-variant tabular-nums">18.1</span>
+</div>
+<div class="flex-1">
+<div class="inline-block px-2 py-0.5 rounded bg-error-container text-error border border-error/30 text-label-caps font-label-caps mb-1">WICKET</div>
+<p class="text-body-sm font-body-sm text-on-surface">Starc to Pandya, <strong>OUT!</strong> Bowled him! Fast, full, and swings in late. Pandya misses the flick and the leg stump is uprooted. Crucial breakthrough for Australia.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Key Performers / Stats Snippet -->
+<section class="bg-surface-container border border-outline-variant rounded-xl p-margin">
+<h3 class="text-label-caps font-label-caps text-on-surface-variant mb-stack-md">IMPACT PLAYERS</h3>
+<div class="flex flex-col gap-stack-md">
+<div class="flex items-center justify-between p-stack-sm bg-surface rounded-lg border border-outline-variant/50">
+<div class="flex items-center gap-stack-sm">
+<div class="w-10 h-10 rounded-full bg-surface-bright flex items-center justify-center text-headline-md font-headline-md text-on-surface overflow-hidden">
+<span class="material-symbols-outlined text-surface-tint">person</span>
+</div>
+<div>
+<div class="text-data-tabular font-data-tabular text-on-surface">V. Kohli</div>
+<div class="text-label-caps font-label-caps text-on-surface-variant">BATTER</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-headline-md font-headline-md text-secondary-fixed">78*</div>
+<div class="text-label-caps font-label-caps text-on-surface-variant">RUNS</div>
+</div>
+</div>
+<div class="flex items-center justify-between p-stack-sm bg-surface rounded-lg border border-outline-variant/50">
+<div class="flex items-center gap-stack-sm">
+<div class="w-10 h-10 rounded-full bg-surface-bright flex items-center justify-center text-headline-md font-headline-md text-on-surface overflow-hidden">
+<span class="material-symbols-outlined text-surface-tint">person</span>
+</div>
+<div>
+<div class="text-data-tabular font-data-tabular text-on-surface">M. Starc</div>
+<div class="text-label-caps font-label-caps text-on-surface-variant">BOWLER</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-headline-md font-headline-md text-secondary-fixed">2/32</div>
+<div class="text-label-caps font-label-caps text-on-surface-variant">FIGURES</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Social Share / Engagement -->
+<section class="flex gap-stack-sm">
+<button class="flex-1 bg-surface-container border border-outline-variant hover:bg-surface-container-high transition-colors text-on-surface py-stack-sm rounded-lg flex items-center justify-center gap-stack-sm text-label-caps font-label-caps">
+<span class="material-symbols-outlined text-[18px]">share</span> SHARE
+                </button>
+<button class="flex-1 bg-secondary-container hover:bg-secondary-fixed transition-colors text-on-secondary-container py-stack-sm rounded-lg flex items-center justify-center gap-stack-sm text-label-caps font-label-caps font-bold shadow-sm">
+<span class="material-symbols-outlined text-[18px]">thumb_up</span> FAN POLL
+                </button>
+</section>
+</div>
+</main>
+</body></html>

@@ -79,6 +79,8 @@ export type MatchState = {
   version: number;
   matchId: string;
   format: 'T20' | 'T40' | 'OD' | 'Declaration' | 'Other';
+  tournament?: string;
+  venue?: string;
   teams: {
     home: { id: string; name: string; shortName: string; players: Player[] };
     away: { id: string; name: string; shortName: string; players: Player[] };

@@ -10,9 +10,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input({ c
     <input
       ref={ref}
       className={cn(
-        'w-full rounded-lg bg-white/5 px-3 py-2 text-base text-white placeholder:text-white/30',
-        'border border-white/10 focus:outline-none focus:ring-2 focus:ring-willow-gold/60 focus:border-transparent',
-        invalid && 'border-rose-500/60 focus:ring-rose-500/40',
+        'w-full rounded-lg bg-pitch-raised px-3 py-2.5 text-base text-white placeholder:text-white/30',
+        'border border-pitch-border focus:outline-none focus:ring-2 focus:ring-accent-gold/50 focus:border-accent-gold/40',
+        invalid && 'border-danger/60 focus:ring-danger/30',
         'transition-colors',
         className,
       )}
@@ -28,7 +28,7 @@ interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
 export function Label({ children, hint, className, ...rest }: LabelProps) {
   return (
     <label className={cn('flex flex-col gap-1.5', className)} {...rest}>
-      <span className="flex items-baseline justify-between text-xs font-semibold uppercase tracking-wider text-white/70">
+      <span className="flex items-baseline justify-between text-xs font-semibold uppercase tracking-wider text-white/60">
         <span>{children}</span>
         {hint && <span className="text-[10px] font-normal text-white/40">{hint}</span>}
       </span>
@@ -53,7 +53,7 @@ export function FormField({
     <Label hint={hint} className={className}>
       {label}
       <div className="mt-1.5">{children}</div>
-      {error && <span className="mt-1 text-xs text-rose-400">{error}</span>}
+      {error && <span className="mt-1 text-xs text-danger">{error}</span>}
     </Label>
   );
 }

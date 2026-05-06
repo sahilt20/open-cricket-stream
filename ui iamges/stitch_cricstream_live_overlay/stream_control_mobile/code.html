@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Stream &amp; Encoder Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700;900&amp;family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#1f2b39",
+                        "primary-fixed": "#d8e3f5",
+                        "on-background": "#d7e3f7",
+                        "on-surface": "#d7e3f7",
+                        "on-primary-container": "#75808f",
+                        "background": "#081421",
+                        "surface-container-low": "#101c2a",
+                        "secondary-fixed": "#ffe16d",
+                        "outline-variant": "#44474c",
+                        "on-primary-fixed-variant": "#3d4855",
+                        "secondary-fixed-dim": "#e9c400",
+                        "on-tertiary-fixed-variant": "#004f58",
+                        "on-secondary-container": "#725f00",
+                        "on-secondary-fixed-variant": "#544600",
+                        "on-primary-fixed": "#121c29",
+                        "tertiary-container": "#00181c",
+                        "error-container": "#93000a",
+                        "surface-container": "#14202e",
+                        "on-tertiary-fixed": "#001f24",
+                        "tertiary": "#00daf3",
+                        "surface": "#081421",
+                        "surface-container-highest": "#2a3644",
+                        "secondary": "#fff9ef",
+                        "tertiary-fixed-dim": "#00daf3",
+                        "surface-variant": "#2a3644",
+                        "secondary-container": "#ffdb3c",
+                        "surface-bright": "#2e3a49",
+                        "on-surface-variant": "#c5c6cc",
+                        "surface-tint": "#bcc7d8",
+                        "on-tertiary-container": "#008c9d",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-lowest": "#030f1c",
+                        "outline": "#8e9196",
+                        "tertiary-fixed": "#9cf0ff",
+                        "primary-container": "#0b1622",
+                        "on-tertiary": "#00363d",
+                        "inverse-surface": "#d7e3f7",
+                        "on-error": "#690005",
+                        "on-secondary-fixed": "#221b00",
+                        "on-primary": "#27313e",
+                        "primary-fixed-dim": "#bcc7d8",
+                        "surface-dim": "#081421",
+                        "inverse-primary": "#545f6e",
+                        "on-secondary": "#3a3000",
+                        "inverse-on-surface": "#253140",
+                        "error": "#ffb4ab",
+                        "primary": "#bcc7d8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "margin": "24px",
+                        "gutter": "16px",
+                        "unit": "4px",
+                        "stack-md": "16px",
+                        "stack-lg": "32px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["lexend"],
+                        "label-caps": ["inter"],
+                        "body-sm": ["inter"],
+                        "body-lg": ["inter"],
+                        "headline-lg": ["lexend"],
+                        "display-score": ["lexend"],
+                        "data-tabular": ["inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-score": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-tabular": ["15px", { "lineHeight": "1", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-lg min-h-screen flex flex-col md:hidden">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface text-primary dark:text-primary docked full-width top-0 z-50 border-b border-outline-variant dark:border-outline-variant flat no shadows flex justify-between items-center w-full px-gutter h-16 sticky">
+<div class="flex items-center gap-2">
+<span class="text-headline-lg font-headline-lg font-black text-secondary-container dark:text-secondary-fixed">PRO CRICKET LIVE</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-label-caps font-label-caps text-secondary-container pulse">LIVE • 142/3 (18.4)</span>
+<div class="flex items-center gap-2">
+<button class="text-primary hover:bg-surface-container-high transition-colors p-1 rounded">
+<span class="material-symbols-outlined">sensors</span>
+</button>
+<button class="text-primary hover:bg-surface-container-high transition-colors p-1 rounded">
+<span class="material-symbols-outlined">videocam</span>
+</button>
+<button class="text-primary hover:bg-surface-container-high transition-colors p-1 rounded">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto p-gutter flex flex-col gap-stack-lg pb-32">
+<!-- Header Area -->
+<div class="flex flex-col gap-unit">
+<h1 class="text-headline-md font-headline-md text-on-surface">Stream Management</h1>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Monitor and control broadcast output</p>
+</div>
+<!-- System Health Section -->
+<section class="flex flex-col gap-stack-md">
+<h2 class="text-label-caps font-label-caps text-on-surface-variant uppercase tracking-widest">System Health</h2>
+<div class="grid grid-cols-3 gap-unit">
+<!-- CPU -->
+<div class="bg-surface-container rounded-lg p-stack-sm border border-outline-variant flex flex-col items-center justify-center gap-unit">
+<span class="text-label-caps font-label-caps text-on-surface-variant">CPU</span>
+<span class="text-data-tabular font-data-tabular text-on-surface">42%</span>
+<div class="w-full bg-surface-container-highest rounded-full h-1 mt-1">
+<div class="bg-tertiary h-1 rounded-full w-[42%]"></div>
+</div>
+</div>
+<!-- RAM -->
+<div class="bg-surface-container rounded-lg p-stack-sm border border-outline-variant flex flex-col items-center justify-center gap-unit">
+<span class="text-label-caps font-label-caps text-on-surface-variant">RAM</span>
+<span class="text-data-tabular font-data-tabular text-on-surface">8.4GB</span>
+<div class="w-full bg-surface-container-highest rounded-full h-1 mt-1">
+<div class="bg-secondary-container h-1 rounded-full w-[65%]"></div>
+</div>
+</div>
+<!-- NET -->
+<div class="bg-surface-container rounded-lg p-stack-sm border border-outline-variant flex flex-col items-center justify-center gap-unit relative overflow-hidden">
+<span class="text-label-caps font-label-caps text-on-surface-variant">UPLINK</span>
+<span class="text-data-tabular font-data-tabular text-tertiary">12.5 Mbps</span>
+<div class="absolute top-1 right-1 w-2 h-2 rounded-full bg-tertiary pulse"></div>
+</div>
+</div>
+</section>
+<!-- Stream Output Control -->
+<section class="flex flex-col gap-stack-md">
+<h2 class="text-label-caps font-label-caps text-on-surface-variant uppercase tracking-widest">Encoder Settings</h2>
+<div class="bg-surface-container rounded-lg border border-outline-variant overflow-hidden">
+<div class="p-gutter border-b border-outline-variant flex justify-between items-center bg-surface-container-high">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant">router</span>
+<span class="text-body-sm font-body-sm font-bold">Main Encoder (NVENC)</span>
+</div>
+<span class="text-label-caps font-label-caps text-tertiary bg-tertiary-container px-2 py-1 rounded">HEALTHY</span>
+</div>
+<div class="p-gutter flex flex-col gap-stack-md">
+<!-- Resolution/FPS -->
+<div class="flex justify-between items-center">
+<span class="text-body-sm font-body-sm text-on-surface-variant">Format</span>
+<select class="bg-surface text-body-sm font-body-sm text-on-surface border border-outline-variant rounded px-3 py-1.5 focus:border-tertiary focus:ring-1 focus:ring-tertiary outline-none">
+<option>1080p60</option>
+<option>1080p30</option>
+<option>720p60</option>
+</select>
+</div>
+<!-- Bitrate -->
+<div class="flex justify-between items-center">
+<span class="text-body-sm font-body-sm text-on-surface-variant">Target Bitrate</span>
+<div class="flex items-center gap-2">
+<input class="w-20 bg-surface text-data-tabular font-data-tabular text-on-surface border border-outline-variant rounded px-2 py-1.5 focus:border-tertiary focus:ring-1 focus:ring-tertiary outline-none text-right" type="number" value="8000"/>
+<span class="text-body-sm font-body-sm text-on-surface-variant">Kbps</span>
+</div>
+</div>
+<!-- Stream Key -->
+<div class="flex flex-col gap-unit mt-2">
+<label class="text-label-caps font-label-caps text-on-surface-variant">RTMP Stream Key</label>
+<div class="relative">
+<input class="w-full bg-surface text-data-tabular font-data-tabular text-on-surface border border-outline-variant rounded pl-3 pr-10 py-2 focus:border-tertiary focus:ring-1 focus:ring-tertiary outline-none" type="password" value="live2-youtube-abcd-1234-xyz"/>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Broadcast Elements -->
+<section class="flex flex-col gap-stack-md">
+<h2 class="text-label-caps font-label-caps text-on-surface-variant uppercase tracking-widest">Broadcast Elements</h2>
+<div class="bg-surface-container rounded-lg border border-outline-variant flex flex-col">
+<!-- Toggle 1 -->
+<div class="p-gutter border-b border-outline-variant flex justify-between items-center">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">scoreboard</span>
+<div class="flex flex-col">
+<span class="text-body-sm font-body-sm font-bold text-on-surface">Score Bug Overlay</span>
+<span class="text-label-caps font-label-caps text-on-surface-variant">Bottom center placement</span>
+</div>
+</div>
+<!-- Switch ON -->
+<div class="w-12 h-6 bg-tertiary rounded-full relative cursor-pointer">
+<div class="absolute right-1 top-1 w-4 h-4 bg-surface-container-lowest rounded-full"></div>
+</div>
+</div>
+<!-- Toggle 2 -->
+<div class="p-gutter flex justify-between items-center">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">branding_watermark</span>
+<div class="flex flex-col">
+<span class="text-body-sm font-body-sm font-bold text-on-surface">Network Watermark</span>
+<span class="text-label-caps font-label-caps text-on-surface-variant">Top right bug</span>
+</div>
+</div>
+<!-- Switch ON -->
+<div class="w-12 h-6 bg-tertiary rounded-full relative cursor-pointer">
+<div class="absolute right-1 top-1 w-4 h-4 bg-surface-container-lowest rounded-full"></div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Action Area -->
+<div class="fixed bottom-0 left-0 w-full bg-surface border-t border-outline-variant p-gutter z-40">
+<button class="w-full bg-error-container text-on-error-container hover:bg-error hover:text-on-error transition-colors text-headline-md font-headline-md py-4 rounded-lg flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">stop_circle</span>
+            STOP BROADCAST
+        </button>
+</div>
+</body></html>
